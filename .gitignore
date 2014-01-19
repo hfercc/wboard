@@ -216,3 +216,6 @@ pip-log.txt
 
 ## BatchFile
 *.bat
+
+## WSGI compiled file
+*.wsgic

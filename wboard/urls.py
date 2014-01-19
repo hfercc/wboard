@@ -14,4 +14,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+	url(r'^notfiy/',   include('notification.urls')),
+	url(r'^webboard/', include('webboard.urls')),
+	url(r'^pm/',       include('private_message.urls')), 
 )
