@@ -15,7 +15,7 @@ def private_message_list(request):
 	elif kind == 'all':
 		objects = request.user.private_message_sent + request.user.private_message_received
 	else:
-		raise Http404
+		raise Http404	
 	return {'private_messages': utils.paginate_by_request(objects, request),
 					'kind': kind
 					}
