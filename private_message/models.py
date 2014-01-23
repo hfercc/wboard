@@ -20,8 +20,8 @@ class PrivateMessageManager(models.Manager):
 
 class PrivateMessage(models.Model):
 
-	sender       = models.ForeignKey(User, related_name = 'privatemessage_senders')
-	receiver     = models.ForeignKey(User, related_name = 'privatemessage_receivers')
+	sender       = models.ForeignKey(User, related_name = 'private_message_sent')
+	receiver     = models.ForeignKey(User, related_name = 'private_message_received')
 	body_text    = models.TextField()
 	created_time = models.DateTimeField(auto_now_add = True)
 	attachments  = models.ManyToManyField(Attachment)
@@ -40,3 +40,7 @@ class PrivateMessage(models.Model):
 	def mark_read(self, flag = True):
 		self.has_read = flag
 		self.save()
+
+	def delete(self):
+		self.notification.delete()
+		super(PrivateMessage, self).delete()

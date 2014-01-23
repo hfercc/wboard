@@ -11,11 +11,11 @@ urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-  url(r'^admin/', include(admin.site.urls)),
+	url(r'^$',         'wboard.views.index'),
+  url(r'^admin/',    include(admin.site.urls)),
 	url(r'^notfiy/',   include('notification.urls')),
 	url(r'^webboard/', include('webboard.urls')),
 	url(r'^pm/',       include('private_message.urls')), 
 	url(r'^accounts/', include('accounts.urls')),
+	url(r'^sae/',     include('_sae.urls')),
 )
