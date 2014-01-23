@@ -30,12 +30,18 @@ class Notification(models.Model):   #abstract class of notification
 	def message(self):                #abstract
 		pass
 		
+	def kind(self):                   #abstract
+		pass
+	
 	class Meta:
 		abstract = True
 		
 class PrivateMessageNotification(Notification):
 
 	private_message = models.OneToOneField(PrivateMessage, related_name = 'notification')
+	
+	def kind(self):
+		return 'pm'
 	
 class StatusNotification(Notification):
 	
@@ -47,6 +53,12 @@ class StatusNotification(Notification):
 						('DELETED',  'deleted'),
 	])
 	
+	def kind(self):
+		return 'status'
+	
 class CommentNotification(Notification):
 	
 	comment = models.OneToOneField(Comment, related_name = 'notification')
+	
+	def kind(self):
+		return 'comment'

@@ -10,7 +10,7 @@ def notifications_list(request, kind):
 			notification_class.objects.notifications(request.user), 
 			request
 	)
-	return {'notifications': notifications, 'kind': kind}
+	return {'objects': notifications}
 	
 @login_required
 @method('POST')

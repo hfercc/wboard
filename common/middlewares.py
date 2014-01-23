@@ -4,8 +4,15 @@ from django.conf import settings
 from django.views.static import serve
 from django.shortcuts import redirect
 
-from .exceptions import Redirect
+from exceptions import Redirect, AjaxError
+from django.http import HttpResponse
+import json
 
+class AjaxMiddleware(object):
+	
+	def process_exception(self, request, exception):
+		if isinstance(exception, AjaxError) and request.method == 'POST':
+			return HttpResponse(json.dumps(exception.error))
 
 class StaticServe(object):
     """
