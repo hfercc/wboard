@@ -12,7 +12,7 @@
     <div class="wboard head">
       <div class="wboard head logined">
 				{% if user.is_authenticated %}
-        <a href="#" class="item right">退出</a>
+        <a href="/accounts/logout/" class="item right">退出</a>
         <label class="item right">{{user.username}}</label>
 				{% else %}
 				<a href="/accounts/login/", class="item right">登录</a>

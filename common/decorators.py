@@ -238,7 +238,7 @@ def method(method_name):
 		@wraps(function)
 		def wrapper(request, *args, **kw_args):
 			if method_name.upper() != request.method:
-				raise MethodError, 'This method should not be used in this view.'
+				raise exceptions.MethodError, 'This method(%s) should not be used in this view.' % request.method
 			return function(request, *args, **kw_args)
 		return wrapper
 	return renderer

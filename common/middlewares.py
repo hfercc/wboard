@@ -11,7 +11,7 @@ import json
 class AjaxMiddleware(object):
 	
 	def process_exception(self, request, exception):
-		if isinstance(exception, AjaxError) and request.method == 'POST':
+		if isinstance(exception, AjaxError):
 			return HttpResponse(json.dumps(exception.error))
 
 class StaticServe(object):
