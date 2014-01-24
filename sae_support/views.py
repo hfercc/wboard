@@ -1,4 +1,4 @@
-from common import utils, exceptions
+from common import utils#, exceptions
 import common
 
 @common.login_required
@@ -11,4 +11,4 @@ def upload(request):
 						'url':    url,
 						'file_name': file_name}
 	except:
-		raise exceptions.FileUploadFailed
+		pass#raise common.exceptions.FileUploadFailed

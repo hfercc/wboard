@@ -9,22 +9,20 @@ class PrivateMessageForm(forms.Form):
 	receivers  = forms.CharField()
 	attachment = forms.CharField()
 	
-	def _get_users_received(self):
+	def clean_receivers(self):
 		try:
-			return [User.objects.get(username = name) for name in self.cleaned_data.receivers.split('|')]
+			self.users_received = [User.objects.get(username = name) for name in  \
+				self.cleaned_data.receivers.split('|')]
 		except:
-			raise exceptions.DataFieldMissed
+			raise forms.ValidationError('Cannot find the object!')
 	
-	def _get_attachments(self):
+	def clean_attachment(self):
+		self.attachments = []
 		try:
-			return self.__attachments
+			for attachment in self.cleaned_data.attachment.split('|'):
+				url, file_name = attachment.split('*')
+				a = models.Attachment(url = url, file_name = file_name)
+				a.save()
+				self.attachments += [a]
 		except:
-			self.__attachments = []
-		for attachment in self.cleaned_data.attachment.split('|'):
-			url, file_name = attachment.split('*')
-			a = models.Attachment(url = url, file_name = file_name)
-			a.save()
-			self.__attachments += [a]
-	
-	users_received = property(_get_users_received)
-	attachments    = property(_get_attachments)
+			raise forms.ValidationError('Cannot find the attachment!')

@@ -17,6 +17,16 @@ class PrivateMessageManager(models.Manager):
 		
 	def posted_messages(self, user):
 		return self.filter(sender = user.id)
+		
+	def filter_messages(self, user, kind = 'all'):
+		if kind == 'all':
+			return user.private_message_sent + user.private_message_received
+		elif kind == 'sent':
+			return user.private_message_sent
+		elif kind == 'received':
+			return user.private_message_received
+		else:
+			return []
 
 class PrivateMessage(models.Model):
 

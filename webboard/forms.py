@@ -1,6 +1,6 @@
 from django import forms
 import models
-from common import utils
+from common import utils, exceptions
 
 class StatusForm(forms.Form):
 
@@ -12,11 +12,8 @@ class CommentForm(forms.Form):
 	body_text = forms.CharField()
 	status_id = forms.IntegerField()
 	
-	def _get_status(self):
+	def clean_status_id(self):
 		try:
-			return self.__status
-		except AttributeError:
-			self.__status = utils.get_object_by_id(models.Status, self.cleaned_data.status_id)
-			return __status
-		
-	status = property(_get_status)
+			self.status = utils.get_object_by_id(models.Status, self.cleaned_data.status_id)
+		except exceptions.ObjectNoFound:
+			raise forms.ValidationError('Cannot find the object!')

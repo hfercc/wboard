@@ -40,6 +40,14 @@ class Status(models.Model):
 			comment.delete()
 		super(Status, self).delete()
 		
+	class Meta:
+		permissions = (
+				('post', 'Can post statuses'),
+				('verify', 'Can verify statuses'),
+				('delete_modify', 'Can delete or modify statuses'),
+				('comment', 'Can comment statuses'),
+			)
+		
 class CommentManager(models.Manager):
 
 	def comments(self, user):

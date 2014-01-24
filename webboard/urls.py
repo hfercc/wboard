@@ -9,7 +9,7 @@ urlpatterns = patterns('webboard.views',
 	(r'comment/add/$',          'add_comment'),
 	(r'comment/delete/(\d+)/$', 'delete_comment'),
 ) + patterns('',
-	(r'delete/(\d+)/$',         'common.utils.views.splitter', {
+	(r'delete/(\d+)/$',         'common.utils.views_splitter', {
 			'GET':  'webboard.views.delete_get',
 			'POST': 'webboard.views.delete_post'
 		}

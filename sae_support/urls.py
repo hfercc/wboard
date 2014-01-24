@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('_sae.views',
+urlpatterns = patterns('sae_support.views',
 	(r'upload/$',  'upload'),
 )

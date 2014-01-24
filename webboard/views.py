@@ -23,6 +23,7 @@ def detail(request, status_id):
 	
 def _add_or_modify(request, status_id = ''):
 	
+	@common.csrf_protect
 	@common.render_to('/webboard/status/add.html')
 	def get():
 		if status_id:
@@ -113,7 +114,7 @@ def verify(request, status_id):
 	
 #=======================Comment Part========================
 
-@utils.method('POST')
+@common.method('POST')
 @common.login_required
 @common.ajax_request
 def add_comment(request):
@@ -133,7 +134,7 @@ def add_comment(request):
 		raise exceptions.DataFieldMissed
 	return STATUS_SUCCESS
 	
-@utils.method('POST')
+@common.method('POST')
 @common.login_required
 @common.ajax_request
 def delete_comment(request, comment_id):

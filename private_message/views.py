@@ -8,13 +8,8 @@ from django.http import HttpResponseRedirect, Http404
 @common.render_to('pm/list.html')
 def private_message_list(request):
 	kind = request.GET.get('kind', '')
-	if kind == 'sent':
-		objects = request.user.private_message_sent
-	elif kind == 'received':
-		objects = request.user.private_message_received
-	elif kind == 'all':
-		objects = request.user.private_message_sent + request.user.private_message_received
-	else:
+	objects = PrivateMessage.objects.filter_message(request.user, kind)
+	if not objects:
 		raise Http404	
 	return {'private_messages': utils.paginate_by_request(objects, request),
 					'kind': kind
@@ -43,6 +38,7 @@ def delete_post(request, pm_id):
 	return STATUS_SUCCESS
 	
 @common.login_required
+@common.csrf_protect
 @common.render_to('pm/write.html')
 def write_get(request):
 	return {}
@@ -59,4 +55,6 @@ def write_post(request):
 					form.cleaned_data.body_text,
 					form.attachments
 			)
+	else:
+		pass   #expected to be completed
 	return STATUS_SUCCESS

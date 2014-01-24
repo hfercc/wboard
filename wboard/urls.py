@@ -17,5 +17,5 @@ urlpatterns = patterns('',
 	url(r'^webboard/', include('webboard.urls')),
 	url(r'^pm/',       include('private_message.urls')), 
 	url(r'^accounts/', include('accounts.urls')),
-	url(r'^sae/',     include('_sae.urls')),
+	url(r'^sae/',     include('sae_support.urls')),
 )

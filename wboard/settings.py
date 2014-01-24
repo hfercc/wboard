@@ -125,7 +125,7 @@ INSTALLED_APPS = (
 		'private_message',
 		'notification',
 		'accounts',
-		'_sae',
+		'sae_support',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
