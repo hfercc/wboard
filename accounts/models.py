@@ -1,3 +1,4 @@
+# -*- coding: cp936 -*-
 from common import JsonObjectModel, fields, jsonobj, utils
 from django.db import models
 from django.contrib.auth.models import User
@@ -11,7 +12,7 @@ class UserProfile(jsonobj.JsonObjectModel):
 	json_filters = ['user']
 	
 	def __unicode__(self):
-		return '%s\'sprofile.' % self.user.username
+		return u'%s的个人信息。' % self.nick_name
 		
 	def get_json_object(self):
 		super(UserProfile, self).get_json_object()
@@ -25,3 +26,7 @@ class UserProfile(jsonobj.JsonObjectModel):
 			)
 		)
 		return self.objects
+		
+	class Meta(jsonobj.JsonObjectModel.Meta):
+		abstract = False
+		verbose_name = u'用户信息'

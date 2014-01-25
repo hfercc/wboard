@@ -1,3 +1,4 @@
+# -*- coding: cp936 -*-
 from django.db import models
 from django.contrib.auth.models import User
 from common import jsonobj
@@ -43,6 +44,12 @@ class Status(jsonobj.JsonObjectModel):
 			comment.delete()
 		super(Status, self).delete()
 		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+		
 	class Meta:
 		permissions = (
 				('post', 'Can post statuses'),
@@ -50,6 +57,8 @@ class Status(jsonobj.JsonObjectModel):
 				('delete_modify', 'Can delete or modify statuses'),
 				('comment', 'Can comment statuses'),
 			)
+		verbose_name = u'¹«¸æ'
+		ordering = ['-created_time']
 		
 class CommentManager(models.Manager):
 
@@ -74,3 +83,13 @@ class Comment(jsonobj.JsonObjectModel):
 	def delete(self):
 		self.notification.delete()
 		super(Comment, self).delete()
+		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+			
+	class Meta:
+		verbose_name = u'ÆÀÂÛ'
+		ordering = ['-created_time']

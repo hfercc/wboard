@@ -1,3 +1,4 @@
+# -*- coding: cp936 -*-
 from django.db import models
 from common import jsonobj
 from django.contrib.auth.models import User
@@ -9,7 +10,11 @@ class Attachment(jsonobj.JsonObjectModel):
 	uploaded_time = models.DateTimeField()
 	
 	def __unicode__(self):
-		return unicode('Attachment %s at %s' % (self.file_name, self.url))
+		return u'URL为%s的附件 %s。' % (self.url, self.file_name)
+		
+	class Meta(jsonobj.JsonObjectModel.Meta):
+		abstract = False
+		verbose_name = u'附件'
 		
 class PrivateMessageManager(models.Manager):		
 	
@@ -43,12 +48,11 @@ class PrivateMessage(jsonobj.JsonObjectModel):
 	json_extra   = ['attachments']
 	
 	def __unicode__(self):
-		return unicode('Attachment from %s to %s. %d attachments contained.' % (
+		return u'%s 给 %s 的私信。包含 %d 个附件。' % (
 				self.sender.profile.nick_name, 
 				self.receiver.profile.nick_name,
 				len(self.attachments.all())
 			)
-		)
 	
 	def mark_read(self, flag = True):
 		self.has_read = flag
@@ -57,3 +61,14 @@ class PrivateMessage(jsonobj.JsonObjectModel):
 	def delete(self):
 		self.notification.delete()
 		super(PrivateMessage, self).delete()
+		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+			
+	class Meta(jsonobj.JsonObjectModel.Meta):
+		abstract = False
+		verbose_name = u'私信'
+		ordering = ['-created_time']
