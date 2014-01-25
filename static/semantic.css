@@ -419,7 +419,7 @@
   content: '';
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8) url(../images/loader-large.gif) no-repeat 50% 50%;
+  background: rgba(255, 255, 255, 0.8) url(images/loader-large.gif) no-repeat 50% 50%;
   visibility: visible;
 }
 
@@ -1996,7 +1996,7 @@ body > .ui.grid {
   content: '';
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8) url(../images/loader-large.gif) no-repeat 50% 50%;
+  background: rgba(255, 255, 255, 0.8) url(images/loader-large.gif) no-repeat 50% 50%;
   visibility: visible;
 }
 
@@ -3283,6 +3283,9 @@ body > .ui.grid {
 .ui.large.vertical.menu {
   width: 18rem;
 }
+.ui.tiny.menu .item{
+	font-size:0.75rem;
+}
 /*
  * # Semantic - Message
  * http://github.com/jlukic/semantic-ui/
@@ -4238,8 +4241,8 @@ body > .ui.grid {
 
 @font-face {
   font-family: 'Basic Icons';
-  src: url(../fonts/basic.icons.eot);
-  src: url(../fonts/basic.icons.eot?#iefix) format('embedded-opentype'), url(../fonts/basic.icons.svg#basic.icons) format('svg'), url(../fonts/basic.icons.woff) format('woff'), url(../fonts/basic.icons.ttf) format('truetype');
+  src: url(fonts/basic.icons.eot);
+  src: url(fonts/basic.icons.eot?#iefix) format('embedded-opentype'), url(fonts/basic.icons.svg#basic.icons) format('svg'), url(fonts/basic.icons.woff) format('woff'), url(fonts/basic.icons.ttf) format('truetype');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -4275,25 +4278,25 @@ i.basic.icon.circle.attention:before {
   content: '\2757';
 }
 
-/* 'â—' */
+/* 'â? */
 
 i.basic.icon.circle.help:before {
   content: '\e704';
 }
 
-/* 'îœ„' */
+/* 'îœ? */
 
 i.basic.icon.circle.info:before {
   content: '\e705';
 }
 
-/* 'îœ…' */
+/* 'îœ? */
 
 i.basic.icon.add:before {
   content: '\2795';
 }
 
-/* 'âž•' */
+/* 'âž? */
 
 i.basic.icon.chart:before {
   content: 'ðŸ“ˆ';
@@ -4311,109 +4314,109 @@ i.basic.icon.chart.pie:before {
   content: '\e7a2';
 }
 
-/* 'îž¢' */
+/* 'îž? */
 
 i.basic.icon.resize.full:before {
   content: '\e744';
 }
 
-/* 'î„' */
+/* 'î? */
 
 i.basic.icon.resize.horizontal:before {
   content: '\2b0d';
 }
 
-/* 'â¬' */
+/* 'â¬? */
 
 i.basic.icon.resize.small:before {
   content: '\e746';
 }
 
-/* 'î†' */
+/* 'î? */
 
 i.basic.icon.resize.vertical:before {
   content: '\2b0c';
 }
 
-/* 'â¬Œ' */
+/* 'â¬? */
 
 i.basic.icon.down:before {
   content: '\2193';
 }
 
-/* 'â†“' */
+/* 'â†? */
 
 i.basic.icon.down.triangle:before {
   content: '\25be';
 }
 
-/* 'â–¾' */
+/* 'â–? */
 
 i.basic.icon.down.arrow:before {
   content: '\e75c';
 }
 
-/* 'îœ' */
+/* 'î? */
 
 i.basic.icon.left:before {
   content: '\2190';
 }
 
-/* 'â†' */
+/* 'â†? */
 
 i.basic.icon.left.triangle:before {
   content: '\25c2';
 }
 
-/* 'â—‚' */
+/* 'â—? */
 
 i.basic.icon.left.arrow:before {
   content: '\e75d';
 }
 
-/* 'î' */
+/* 'î? */
 
 i.basic.icon.right:before {
   content: '\2192';
 }
 
-/* 'â†’' */
+/* 'â†? */
 
 i.basic.icon.right.triangle:before {
   content: '\25b8';
 }
 
-/* 'â–¸' */
+/* 'â–? */
 
 i.basic.icon.right.arrow:before {
   content: '\e75e';
 }
 
-/* 'îž' */
+/* 'î? */
 
 i.basic.icon.up:before {
   content: '\2191';
 }
 
-/* 'â†‘' */
+/* 'â†? */
 
 i.basic.icon.up.triangle:before {
   content: '\25b4';
 }
 
-/* 'â–´' */
+/* 'â–? */
 
 i.basic.icon.up.arrow:before {
   content: '\e75f';
 }
 
-/* 'îŸ' */
+/* 'î? */
 
 i.basic.icon.folder:before {
   content: '\e810';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.open.folder:before {
   content: 'ðŸ“‚';
@@ -4437,7 +4440,7 @@ i.basic.icon.star:before {
   content: '\e801';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.star.empty:before {
   content: '\e800';
@@ -4449,7 +4452,7 @@ i.basic.icon.star.half:before {
   content: '\e701';
 }
 
-/* 'îœ' */
+/* 'îœ? */
 
 i.basic.icon.lock:before {
   content: 'ðŸ”’';
@@ -4467,37 +4470,37 @@ i.basic.icon.layout.grid:before {
   content: '\e80c';
 }
 
-/* 'î Œ' */
+/* 'î ? */
 
 i.basic.icon.layout.block:before {
   content: '\e708';
 }
 
-/* 'îœˆ' */
+/* 'îœ? */
 
 i.basic.icon.layout.list:before {
   content: '\e80b';
 }
 
-/* 'î ‹' */
+/* 'î ? */
 
 i.basic.icon.heart.empty:before {
   content: '\2661';
 }
 
-/* 'â™¡' */
+/* 'â™? */
 
 i.basic.icon.heart:before {
   content: '\2665';
 }
 
-/* 'â™¥' */
+/* 'â™? */
 
 i.basic.icon.asterisk:before {
   content: '\2731';
 }
 
-/* 'âœ±' */
+/* 'âœ? */
 
 i.basic.icon.attachment:before {
   content: 'ðŸ“Ž';
@@ -4509,7 +4512,7 @@ i.basic.icon.attention:before {
   content: '\26a0';
 }
 
-/* 'âš ' */
+/* 'âš? */
 
 i.basic.icon.trophy:before {
   content: 'ðŸ‰';
@@ -4521,13 +4524,13 @@ i.basic.icon.barcode:before {
   content: '\e792';
 }
 
-/* 'îž’' */
+/* 'îž? */
 
 i.basic.icon.cart:before {
   content: '\e813';
 }
 
-/* 'î “' */
+/* 'î ? */
 
 i.basic.icon.block:before {
   content: 'ðŸš«';
@@ -4555,31 +4558,31 @@ i.basic.icon.cancel:before {
   content: '\2716';
 }
 
-/* 'âœ–' */
+/* 'âœ? */
 
 i.basic.icon.close:before {
   content: '\e80d';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.color:before {
   content: '\e794';
 }
 
-/* 'îž”' */
+/* 'îž? */
 
 i.basic.icon.chat:before {
   content: '\e720';
 }
 
-/* 'îœ ' */
+/* 'îœ? */
 
 i.basic.icon.check:before {
   content: '\2611';
 }
 
-/* 'â˜‘' */
+/* 'â˜? */
 
 i.basic.icon.time:before {
   content: 'ðŸ•”';
@@ -4591,13 +4594,13 @@ i.basic.icon.cloud:before {
   content: '\2601';
 }
 
-/* 'â˜' */
+/* 'â˜? */
 
 i.basic.icon.code:before {
   content: '\e714';
 }
 
-/* 'îœ”' */
+/* 'îœ? */
 
 i.basic.icon.email:before {
   content: '\40';
@@ -4609,43 +4612,43 @@ i.basic.icon.settings:before {
   content: '\26ef';
 }
 
-/* 'â›¯' */
+/* 'â›? */
 
 i.basic.icon.setting:before {
   content: '\2699';
 }
 
-/* 'âš™' */
+/* 'âš? */
 
 i.basic.icon.comment:before {
   content: '\e802';
 }
 
-/* 'î ‚' */
+/* 'î ? */
 
 i.basic.icon.clockwise.counter:before {
   content: '\27f2';
 }
 
-/* 'âŸ²' */
+/* 'âŸ? */
 
 i.basic.icon.clockwise:before {
   content: '\27f3';
 }
 
-/* 'âŸ³' */
+/* 'âŸ? */
 
 i.basic.icon.cube:before {
   content: '\e807';
 }
 
-/* 'î ‡' */
+/* 'î ? */
 
 i.basic.icon.direction:before {
   content: '\27a2';
 }
 
-/* 'âž¢' */
+/* 'âž? */
 
 i.basic.icon.doc:before {
   content: 'ðŸ“„';
@@ -4657,7 +4660,7 @@ i.basic.icon.docs:before {
   content: '\e736';
 }
 
-/* 'îœ¶' */
+/* 'îœ? */
 
 i.basic.icon.dollar:before {
   content: 'ðŸ’µ';
@@ -4669,49 +4672,49 @@ i.basic.icon.paint:before {
   content: '\e7b5';
 }
 
-/* 'îžµ' */
+/* 'îž? */
 
 i.basic.icon.edit:before {
   content: '\270d';
 }
 
-/* 'âœ' */
+/* 'âœ? */
 
 i.basic.icon.eject:before {
   content: '\2ecf';
 }
 
-/* 'â»' */
+/* 'â»? */
 
 i.basic.icon.export:before {
   content: '\e715';
 }
 
-/* 'îœ•' */
+/* 'îœ? */
 
 i.basic.icon.hide:before {
   content: '\e80f';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.unhide:before {
   content: '\e70b';
 }
 
-/* 'îœ‹' */
+/* 'îœ? */
 
 i.basic.icon.facebook:before {
   content: '\f301';
 }
 
-/* 'ïŒ' */
+/* 'ïŒ? */
 
 i.basic.icon.fast-forward:before {
   content: '\e804';
 }
 
-/* 'î „' */
+/* 'î ? */
 
 i.basic.icon.fire:before {
   content: 'ðŸ”¥';
@@ -4723,13 +4726,13 @@ i.basic.icon.flag:before {
   content: '\2691';
 }
 
-/* 'âš‘' */
+/* 'âš? */
 
 i.basic.icon.lightning:before {
   content: '\26a1';
 }
 
-/* 'âš¡' */
+/* 'âš? */
 
 i.basic.icon.lab:before {
   content: '\68';
@@ -4741,13 +4744,13 @@ i.basic.icon.flight:before {
   content: '\2708';
 }
 
-/* 'âœˆ' */
+/* 'âœ? */
 
 i.basic.icon.forward:before {
   content: '\27a6';
 }
 
-/* 'âž¦' */
+/* 'âž? */
 
 i.basic.icon.gift:before {
   content: 'ðŸŽ';
@@ -4759,13 +4762,13 @@ i.basic.icon.github:before {
   content: '\f308';
 }
 
-/* 'ïŒˆ' */
+/* 'ïŒ? */
 
 i.basic.icon.globe:before {
   content: '\e817';
 }
 
-/* 'î —' */
+/* 'î ? */
 
 i.basic.icon.headphones:before {
   content: 'ðŸŽ§';
@@ -4777,19 +4780,19 @@ i.basic.icon.question:before {
   content: '\2753';
 }
 
-/* 'â“' */
+/* 'â? */
 
 i.basic.icon.home:before {
   content: '\2302';
 }
 
-/* 'âŒ‚' */
+/* 'âŒ? */
 
 i.basic.icon.i:before {
   content: '\2139';
 }
 
-/* 'â„¹' */
+/* 'â„? */
 
 i.basic.icon.idea:before {
   content: 'ðŸ’¡';
@@ -4807,19 +4810,19 @@ i.basic.icon.content:before {
   content: '\e782';
 }
 
-/* 'îž‚' */
+/* 'îž? */
 
 i.basic.icon.location:before {
   content: '\e724';
 }
 
-/* 'îœ¤' */
+/* 'îœ? */
 
 i.basic.icon.mail:before {
   content: '\2709';
 }
 
-/* 'âœ‰' */
+/* 'âœ? */
 
 i.basic.icon.mic:before {
   content: 'ðŸŽ¤';
@@ -4843,19 +4846,19 @@ i.basic.icon.off:before {
   content: '\e78e';
 }
 
-/* 'îžŽ' */
+/* 'îž? */
 
 i.basic.icon.pause:before {
   content: '\e808';
 }
 
-/* 'î ˆ' */
+/* 'î ? */
 
 i.basic.icon.photos:before {
   content: '\e812';
 }
 
-/* 'î ’' */
+/* 'î ? */
 
 i.basic.icon.photo:before {
   content: 'ðŸŒ„';
@@ -4873,7 +4876,7 @@ i.basic.icon.play:before {
   content: '\e809';
 }
 
-/* 'î ‰' */
+/* 'î ? */
 
 i.basic.icon.plus:before {
   content: '\2b';
@@ -4885,13 +4888,13 @@ i.basic.icon.print:before {
   content: '\e716';
 }
 
-/* 'îœ–' */
+/* 'îœ? */
 
 i.basic.icon.rss:before {
   content: '\e73a';
 }
 
-/* 'îœº' */
+/* 'îœ? */
 
 i.basic.icon.search:before {
   content: 'ðŸ”';
@@ -4903,25 +4906,25 @@ i.basic.icon.shuffle:before {
   content: '\e803';
 }
 
-/* 'î ƒ' */
+/* 'î ? */
 
 i.basic.icon.tag:before {
   content: '\e80a';
 }
 
-/* 'î Š' */
+/* 'î ? */
 
 i.basic.icon.tags:before {
   content: '\e70d';
 }
 
-/* 'îœ' */
+/* 'îœ? */
 
 i.basic.icon.terminal:before {
   content: '\e7ac';
 }
 
-/* 'îž¬' */
+/* 'îž? */
 
 i.basic.icon.thumbs.down:before {
   content: 'ðŸ‘Ž';
@@ -4939,13 +4942,13 @@ i.basic.icon.to-end:before {
   content: '\e806';
 }
 
-/* 'î †' */
+/* 'î ? */
 
 i.basic.icon.to-start:before {
   content: '\e805';
 }
 
-/* 'î …' */
+/* 'î ? */
 
 i.basic.icon.top.list:before {
   content: 'ðŸ†';
@@ -4957,19 +4960,19 @@ i.basic.icon.trash:before {
   content: '\e729';
 }
 
-/* 'îœ©' */
+/* 'îœ? */
 
 i.basic.icon.twitter:before {
   content: '\f303';
 }
 
-/* 'ïŒƒ' */
+/* 'ïŒ? */
 
 i.basic.icon.upload:before {
   content: '\e711';
 }
 
-/* 'îœ‘' */
+/* 'îœ? */
 
 i.basic.icon.user.add:before {
   content: '\e700';
@@ -4987,7 +4990,7 @@ i.basic.icon.community:before {
   content: '\e814';
 }
 
-/* 'î ”' */
+/* 'î ? */
 
 i.basic.icon.users:before {
   content: 'ðŸ‘¥';
@@ -4999,7 +5002,7 @@ i.basic.icon.id:before {
   content: '\e722';
 }
 
-/* 'îœ¢' */
+/* 'îœ? */
 
 i.basic.icon.url:before {
   content: 'ðŸ”—';
@@ -5011,13 +5014,13 @@ i.basic.icon.zoom.in:before {
   content: '\e750';
 }
 
-/* 'î' */
+/* 'î? */
 
 i.basic.icon.zoom.out:before {
   content: '\e751';
 }
 
-/* 'î‘' */
+/* 'î? */
 
 /*--------------
    Spacing Fix
@@ -5065,55 +5068,55 @@ i.basic.icon.delete:before {
   content: '\e80d';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.dropdown:before {
   content: '\25be';
 }
 
-/* 'â–¾' */
+/* 'â–? */
 
 i.basic.icon.help:before {
   content: '\e704';
 }
 
-/* 'îœ„' */
+/* 'îœ? */
 
 i.basic.icon.info:before {
   content: '\e705';
 }
 
-/* 'îœ…' */
+/* 'îœ? */
 
 i.basic.icon.error:before {
   content: '\e80d';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.dislike:before {
   content: '\2661';
 }
 
-/* 'â™¡' */
+/* 'â™? */
 
 i.basic.icon.like:before {
   content: '\2665';
 }
 
-/* 'â™¥' */
+/* 'â™? */
 
 i.basic.icon.eye:before {
   content: '\e80f';
 }
 
-/* 'î ' */
+/* 'î ? */
 
 i.basic.icon.eye.hidden:before {
   content: '\e70b';
 }
 
-/* 'îœ‹' */
+/* 'îœ? */
 
 i.basic.icon.date:before {
   content: 'ðŸ“…';
@@ -5464,7 +5467,7 @@ i.massive.basic.icon {
   width: 100%;
   height: 100%;
   content: '';
-  background: transparent url(../images/loader-mini.gif) no-repeat 50% 50%;
+  background: transparent url(images/loader-mini.gif) no-repeat 50% 50%;
 }
 
 .ui.labeled.icon.loading.button .icon {
@@ -5929,19 +5932,19 @@ i.massive.basic.icon {
 /* loading */
 
 .ui.huge.loading.button:after {
-  background-image: url(../images/loader-small.gif);
+  background-image: url(images/loader-small.gif);
 }
 
 .ui.massive.buttons .loading.button:after,
 .ui.gigantic.buttons .loading.button:after,
 .ui.massive.loading.button:after,
 .ui.gigantic.loading.button:after {
-  background-image: url(../images/loader-medium.gif);
+  background-image: url(images/loader-medium.gif);
 }
 
 .ui.huge.loading.button:after,
 .ui.huge.loading.button.active:after {
-  background-image: url(../images/loader-small.gif);
+  background-image: url(images/loader-small.gif);
 }
 
 .ui.massive.buttons .loading.button:after,
@@ -5952,7 +5955,7 @@ i.massive.basic.icon {
 .ui.gigantic.buttons .loading.button.active:after,
 .ui.massive.loading.button.active:after,
 .ui.gigantic.loading.button.active:after {
-  background-image: url(../images/loader-medium.gif);
+  background-image: url(images/loader-medium.gif);
 }
 
 /*--------------
@@ -7333,8 +7336,8 @@ h5.ui.header {
 
 @font-face {
   font-family: 'Icons';
-  src: url(../fonts/icons.eot);
-  src: url(../fonts/icons.eot?#iefix) format('embedded-opentype'), url(../fonts/icons.svg#icons) format('svg'), url(../fonts/icons.woff) format('woff'), url(../fonts/icons.ttf) format('truetype');
+  src: url(fonts/icons.eot);
+  src: url(fonts/icons.eot?#iefix) format('embedded-opentype'), url(fonts/icons.svg#icons) format('svg'), url(fonts/icons.woff) format('woff'), url(fonts/icons.ttf) format('truetype');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -9379,7 +9382,7 @@ img.ui.image {
 ---------------------*/
 
 .ui.loading.input > .icon {
-  background: url(../images/loader-mini.gif) no-repeat 50% 50%;
+  background: url(images/loader-mini.gif) no-repeat 50% 50%;
 }
 
 .ui.loading.input > .icon:before,
@@ -10590,28 +10593,28 @@ a.ui.teal.label:hover:before {
 
 .ui.dimmer .mini.ui.loader,
 .ui.inverted .mini.ui.loader {
-  background-image: url(../images/loader-mini-inverted.gif);
+  background-image: url(images/loader-mini-inverted.gif);
 }
 
 /* Small Size */
 
 .ui.dimmer .small.ui.loader,
 .ui.inverted .small.ui.loader {
-  background-image: url(../images/loader-small-inverted.gif);
+  background-image: url(images/loader-small-inverted.gif);
 }
 
 /* Standard Size */
 
 .ui.dimmer .ui.loader,
 .ui.inverted.loader {
-  background-image: url(../images/loader-medium-inverted.gif);
+  background-image: url(images/loader-medium-inverted.gif);
 }
 
 /* Large Size */
 
 .ui.dimmer .large.ui.loader,
 .ui.inverted .large.ui.loader {
-  background-image: url(../images/loader-large-inverted.gif);
+  background-image: url(images/loader-large-inverted.gif);
 }
 
 /*-------------------
@@ -10624,7 +10627,7 @@ a.ui.teal.label:hover:before {
 .ui.mini.loader {
   width: 16px;
   height: 16px;
-  background-image: url(../images/loader-mini.gif);
+  background-image: url(images/loader-mini.gif);
 }
 
 /* Small Size */
@@ -10633,14 +10636,14 @@ a.ui.teal.label:hover:before {
 .ui.small.loader {
   width: 24px;
   height: 24px;
-  background-image: url(../images/loader-small.gif);
+  background-image: url(images/loader-small.gif);
 }
 
 .ui.inverted.dimmer .ui.loader,
 .ui.loader {
   width: 32px;
   height: 32px;
-  background: url(../images/loader-medium.gif) no-repeat;
+  background: url(images/loader-medium.gif) no-repeat;
   background-position: 48% 0px;
 }
 
@@ -10650,7 +10653,7 @@ a.ui.teal.label:hover:before {
 .ui.loader.large {
   width: 64px;
   height: 64px;
-  background-image: url(../images/loader-large.gif);
+  background-image: url(images/loader-large.gif);
 }
 
 /*-------------------
@@ -14543,7 +14546,7 @@ a.ui.nag {
 ---------------*/
 
 .ui.search.loading .input .icon {
-  background: url(../images/loader-mini.gif) no-repeat 50% 50%;
+  background: url(images/loader-mini.gif) no-repeat 50% 50%;
 }
 
 .ui.search.loading .input .icon:before,
@@ -15046,7 +15049,7 @@ body.pushed.scrolling.ui.dimmable {
   width: 100%;
   height: 100%;
   padding-top: 75px;
-  background: url(../images/loader-large.gif) no-repeat 0px 0px;
+  background: url(images/loader-large.gif) no-repeat 0px 0px;
   visibility: visible;
 }
 /*******************************
@@ -17411,7 +17414,7 @@ ul.ui.list li:before,
 .ui.bulleted.list .item:before {
   position: absolute;
   left: -1.5em;
-  content: 'â€¢';
+  content: 'â€?;
   line-height: 1.2rem;
   vertical-align: top;
 }
