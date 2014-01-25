@@ -219,3 +219,6 @@ pip-log.txt
 
 ## WSGI compiled file
 *.wsgic
+
+## Backup file
+*.~*

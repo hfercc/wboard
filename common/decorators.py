@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.db.models import signals as signalmodule
 from django.http import HttpResponse
 import exceptions
+import jsonobj
+import ajax_response
 # Try to be compatible with Django 1.5+.
 try:
     import json
@@ -203,12 +205,32 @@ def ajax_request(func):
             format_type = 'application/json'
         response = func(request, *args, **kwargs)
         if not isinstance(response, HttpResponse):
+            response = jsonobj.serialize_models(response)
+            if isinstance(response, dict):
+                response.update(ajax_response.STATUS_SUCCESS)
             data = FORMAT_TYPES[format_type](response)
             response = HttpResponse(data, content_type=format_type)
             response['content-length'] = len(data)
         return response
     return wrapper
 
+#What a fuck decorator!		
+		
+def ajax_by_method(template=None, content_type=None, mimetype=None):
+
+	def renderer(function):
+		
+		@wraps(function)
+		def wrapper(request, *args, **kw_args):
+			if request.method == 'GET':
+				return render_to(template, content_type, minetype)(function)(request, *args, **kw_args)
+			elif request.method == 'POST':
+				return ajax_request(function)(request, *args, **kw_args)
+			else:
+				raise exceptions.MethodError
+		
+		return wrapper
+	return renderer
 
 def autostrip(cls):
     """

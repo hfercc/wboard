@@ -1,7 +1,8 @@
 from django.db import models
+from common import jsonobj
 from django.contrib.auth.models import User
 
-class Attachment(models.Model):
+class Attachment(jsonobj.JsonObjectModel):
 	
 	url           = models.URLField()
 	file_name     = models.CharField(max_length = 255)
@@ -28,7 +29,7 @@ class PrivateMessageManager(models.Manager):
 		else:
 			return []
 
-class PrivateMessage(models.Model):
+class PrivateMessage(jsonobj.JsonObjectModel):
 
 	sender       = models.ForeignKey(User, related_name = 'private_message_sent')
 	receiver     = models.ForeignKey(User, related_name = 'private_message_received')
@@ -39,11 +40,13 @@ class PrivateMessage(models.Model):
 	#Manager
 	objects      = PrivateMessageManager()
 	
+	json_extra   = ['attachments']
+	
 	def __unicode__(self):
 		return unicode('Attachment from %s to %s. %d attachments contained.' % (
-				self.sender.get_profile().nick_name, 
-				self.receiver.get_profile().nick_name,
-				len(self.attachments)
+				self.sender.profile.nick_name, 
+				self.receiver.profile.nick_name,
+				len(self.attachments.all())
 			)
 		)
 	

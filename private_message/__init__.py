@@ -1,5 +1,6 @@
 import models
 from models import PrivateMessage, Attachment
+from django.contrib.auth.models import User
 import notification
 
 def send_private_message(sender, receiver, message, attachments = []):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from common import jsonobj
 from private_message.models import PrivateMessage
 from webboard.models import Status, Comment
 
@@ -11,14 +12,16 @@ class NotificationManager(models.Manager):
 	def notifications(self, user):
 		return self.filter(receiver = user.id)
 
-class Notification(models.Model):   #abstract class of notification
+class Notification(jsonobj.JsonObjectModel):   #abstract class of notification
 	
 	created_time = models.DateTimeField(auto_now_add = True)
 	receiver     = models.ForeignKey(User)
 	has_read     = models.BooleanField(default = False)
 	
+	json_extra   = ['kind']
+	
 	def __unicode__(self):
-		return unicode('%s\'s notification.' % self.receiver.get_profile().nick_name)
+		return unicode('%s\'s notification.' % self.receiver.profile.nick_name)
 		
 	def url(self):                    #abstract
 		pass

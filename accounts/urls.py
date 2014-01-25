@@ -6,4 +6,5 @@ urlpatterns = patterns('accounts.views',
 	(r'logout/$', 'logout'),
 	(r'info/(\d+)/$', 'info'),
 	(r'mf/$', 'make_friends'),
+	(r'friends/$', 'friends'),
 )
