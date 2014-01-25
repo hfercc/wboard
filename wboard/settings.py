@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+     ('superuser', ''),
 )
 
 MANAGERS = ADMINS
@@ -97,8 +97,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+		'common.middlewares.RedirectMiddleware',
+		'common.middlewares.AjaxMiddleware',
 )
 
 ROOT_URLCONF = 'wboard.urls'
@@ -125,6 +125,7 @@ INSTALLED_APPS = (
 		'private_message',
 		'notification',
 		'accounts',
+		'sae_support',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

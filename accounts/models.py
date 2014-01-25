@@ -1,7 +1,8 @@
-from django.db import models
+from common import JsonObjectModel
+from django.contrib.anth import models
 from django.contrib.auth.models import User
 
-class UserProfile(models.Model):
+class UserProfile(JsonObjectModel):
 
 	nick_name = models.CharField(max_length = 255, unique = True)
 	friends   = models.ManyToManyField(User)

@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.utils.encoding import iri_to_uri
-from django.core.panginator import Paginator, EmptyPage, InvalidPage
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from datetime import datetime
 from wboard import settings
+from django.http import Http404
 import exceptions
+import sys
 
 class HttpResponseReload(HttpResponse):
     """
@@ -46,21 +48,24 @@ def paginate_by_request(objects, request, objects_per_page = 20):
 	return paginate(objects, object_per_page, page)
 	
 #get object
-def get_object_by_id(cls, id):
+def get_object_by_id(cls, id, raise_404 = False):
 	try:
 		return cls.objects.get(id = int(id))
 	except:
-		return None
+		if raise_404:
+			raise Http404
+		else:
+			return exceptions.ObjectNoFound
 		
 #file upload
 def upload_file(request, field_name):
-'''
+	'''
 	return format:
 	(
 		url : The URL of the file,
 		name: File name
 	)
-'''
+	'''
 	import sae.storage
 	client = sae.storage.Client()
 	filename = datetime.now.strftime('%Y%m%d%H%M%s%f')
@@ -75,9 +80,12 @@ def to_callable(object_name):
 		return object_name
 	splitter = object_name.rfind('.')
 	try:
-		module_name = object_name[:splitter]
-		mothod_name = object_name[splitter+1:]
-		return getattr(__import__(module_name), method_name)
+		module_name = object_name[:splitter] if splitter>=0 else ''
+		method_name = object_name[splitter+1:]
+		if splitter >= 0:
+			return getattr(__import__(module_name), method_name)
+		else:
+			return getattr(sys.modules[__name__], method_name)
 	except ImportError:
 		raise exceptions.MethodError, 'Module name error.'
 	except AttributeError:
@@ -92,3 +100,11 @@ def views_splitter(request, **kw_args):
 		return to_callable(post)(request, **kw_args)
 	else:
 		raise exceptions.MethodError
+		
+def verify_user(request, users):
+	try:
+		iter(users)
+	except:
+		users = [users]
+	if not filter(lambda user: request.user == user, users):
+		raise exceptions.AccessDenied

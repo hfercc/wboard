@@ -30,23 +30,35 @@ class Notification(models.Model):   #abstract class of notification
 	def message(self):                #abstract
 		pass
 		
+	def kind(self):                   #abstract
+		pass
+	
 	class Meta:
 		abstract = True
 		
 class PrivateMessageNotification(Notification):
 
-	private_message = models.ForeignKey(PrivateMessage)
+	private_message = models.OneToOneField(PrivateMessage, related_name = 'notification')
 	
+	def kind(self):
+		return 'pm'
 	
 class StatusNotification(Notification):
 	
-	status   = models.ForeignKey(Status)
+	status   = models.ForeignKey(Status, related_name = 'notifications')
 	category = models.CharField(max_length = 10, choices = [
-						('POSTED','posted'),
+						('POSTED',   'posted'),
 						('REJECTED', 'rejected'),
-						('VERIFIED', 'verified')
+						('VERIFIED', 'verified'),
+						('DELETED',  'deleted'),
 	])
+	
+	def kind(self):
+		return 'status'
 	
 class CommentNotification(Notification):
 	
-	comment = models.ForeignKey(Comment)
+	comment = models.OneToOneField(Comment, related_name = 'notification')
+	
+	def kind(self):
+		return 'comment'

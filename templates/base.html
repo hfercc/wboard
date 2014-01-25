@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"></head>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script src="/static/semantic.js" type="text/javascript"></script>
+    <link href="/static/semantic.css" rel="stylesheet" type="text/css" />
+    <link href="/static/wboard.css" rel="stylesheet" type="text/css" />
+    <script src="/static/wboard.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <!--Check the usergroup and decide which to show.We need a judgement here.-->
+    <div class="wboard head">
+      <div class="wboard head logined">
+				{% if user.is_authenticated %}
+        <a href="/accounts/logout/" class="item right">退出</a>
+        <label class="item right">{{user.username}}</label>
+				{% else %}
+				<a href="/accounts/login/", class="item right">登录</a>
+				{% endif %}
+      </div>
+    </div>
+    <div class="wboard main">
+      <img class="wboard image" src="" >
+			{% block main %}{% endblock %}
+    </div>
+		
+    <!-- Menu --> 
+    <!-- Grid -->
+    <!-- Tail -->
+  </body>
+</html>

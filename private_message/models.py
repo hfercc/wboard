@@ -17,11 +17,21 @@ class PrivateMessageManager(models.Manager):
 		
 	def posted_messages(self, user):
 		return self.filter(sender = user.id)
+		
+	def filter_messages(self, user, kind = 'all'):
+		if kind == 'all':
+			return user.private_message_sent + user.private_message_received
+		elif kind == 'sent':
+			return user.private_message_sent
+		elif kind == 'received':
+			return user.private_message_received
+		else:
+			return []
 
 class PrivateMessage(models.Model):
 
-	sender       = models.ForeignKey(User, related_name = 'privatemessage_senders')
-	receiver     = models.ForeignKey(User, related_name = 'privatemessage_receivers')
+	sender       = models.ForeignKey(User, related_name = 'private_message_sent')
+	receiver     = models.ForeignKey(User, related_name = 'private_message_received')
 	body_text    = models.TextField()
 	created_time = models.DateTimeField(auto_now_add = True)
 	attachments  = models.ManyToManyField(Attachment)
@@ -40,3 +50,7 @@ class PrivateMessage(models.Model):
 	def mark_read(self, flag = True):
 		self.has_read = flag
 		self.save()
+
+	def delete(self):
+		self.notification.delete()
+		super(PrivateMessage, self).delete()
