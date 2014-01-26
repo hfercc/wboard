@@ -14,23 +14,19 @@
       <a href="#" class="item right">退出</a>
       <label class="item right">Username</label>
     </div>
-    <div class="ui active blue progress" style="margin-top:200px;">
-      <div class="bar" style="width:30%">
-      </div>
-    </div>
     <div class="ui tiny modal" id="Login">
       <i class="close icon"></i>
       <div class="header">登陆</div>
       <div class="content">
-        <div class="ui form segment">
+        <div class="ui form segment" id="LgnFrm">
           <div class="two fields">
             <div class="field">
               <label>用户名:</label>
-              <input type="text">
+              <input type="text" name="username" placeholder="请输入用户名">
             </div>
             <div class="field">
               <label>密码:</label>
-              <input type="password">
+              <input type="password" name="password" placeholder="请输入密码">
             </div>
           </div>
         </div>
@@ -40,16 +36,73 @@
         </div>
       </div>
     </div>
-    <script language="javascript">
+    <script>
 	  $('[id=Login]')
 	    .modal();
 	</script>
-    <div class="ui button" id="LgnBtn">Login</div>
-	<script>
-	  $('[id=Login]').modal('attachEvents','[id=LgnBtn]','show');
-	</script>
+    <div class="ui page grid" style="margin-top:50px;">
+    	<div class="row">
+    		<div class="column">
+    			<div class="ui fluid four teal item menu">
+    				<a class="active item">
+    					<i class="home icon"></i>主页 Homepage
+    				</a>
+    				<a class="item">
+    					<i class="mail icon"></i>中文系统 Chinese Committee
+    				</a>
+    				<a class="item">
+    					<i class="mail icon"></i>英文系统 English Committee
+    				</a>
+    				<a class="item">
+    					<i class="user icon"></i>登录 Log in
+    				</a>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="row">
+    		<div class="eight wide column">
+    			<div class="ui piled segment">
+    				<h2>Title</h2>
+    				<p>jsakfjasl;dfjlasdnfoashdflasndofcasdpfajsodlfxl</p>
+    				<p>alsjdhfnolasdhfklahbsdkfabhskdxfbkalsdbklfhashdbkfkladsf</p>
+    			</div>
+    		</div>
+    		<div class="eight wide column">
+    			<div class="ui vertical fluid menu">
+    				<a href="#" class="item">Article 1</a>
+    				<a href="#" class="item">Article 2</a>
+    			</div>
+    		</div>
+    	</div>
+    </div>
     <!-- Menu --> 
     <!-- Grid -->
     <!-- Tail -->
+    <script>
+    	$('[id=LgnFrm]').form({
+    			UserName:{
+    				identifier : "username" ,
+    				rules : [
+    				{
+    				  	type : "empty" ,
+    				  	prompt : "请输入用户名"
+    			    }
+    				]
+    			},
+    			PassWord:{
+    				identifier : "password" ,
+    				rules: [
+    				{
+    					type : "empty" ,
+    					prompt : "请输入密码"
+    				}
+    				]
+    			}
+    		}
+    );
+    $('[id=LgnFrm]').onSuccess(
+    	//Submit
+    );
+    </script>
   </body>
 </html>
