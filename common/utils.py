@@ -30,6 +30,40 @@ class HttpResponseReload(HttpResponse):
         referer = request.META.get('HTTP_REFERER')
         self['Location'] = iri_to_uri(referer or "/")
 
+#reflect
+
+def datetime_processor(obj):
+	if isinstance(obj, datetime):
+		return obj.strftime(settings.JSON_DATETIME_FORMAT)
+		
+def many_related_processor(obj):
+	if obj.__class__.__name__ == 'ManyRelatedManager':
+		return obj.all()
+
+def get_attributes(obj, attrs, filters = [], attr_name = '', processors = []):
+	
+	def get_attr_name(attr):
+		if not attr_name:
+			return attr
+		else:
+			return getattr(attr, attr_name)
+
+	result = {}
+	for attr in attrs:
+		name = get_attr_name(attr)
+		if name in filters:
+			continue
+		a = getattr(obj, name)
+		result[name] = a() if callable(a) else a
+		for processor in processors:
+			process_result = processor(result[name])
+			if process_result is not None:
+				result[name] = process_result
+	return result				
+				
+def get_model_fields(obj):
+	return [attr.name for attr in obj._meta.local_fields]
+
 #Paginate				
 
 def paginate(objects, objects_per_page = 20, page = 1):
@@ -46,6 +80,19 @@ def paginate_by_request(objects, request, objects_per_page = 20):
 	except ValueError:
 		page = 1
 	return paginate(objects, object_per_page, page)
+	
+def paginate_to_dict(objects, request, objects_per_page = 20, ajax_by_request = True, is_ajax = True):
+	page = paginate_by_request(objects, request, objects_per_page)
+	if ajax_by_request:
+		ajax = request.method == 'POST'
+	else:
+		ajax = is_ajax
+	if not ajax:
+		return {'objects': page}
+	response = {'objects': page.objects}
+	response.update(get_attributes(page, ['has_next', 'has_previous', 'next_page_number',
+			'previous_page_number', 'end_index', 'index', 'number'], attr_name = ''))
+	return response
 	
 #get object
 def get_object_by_id(cls, id, raise_404 = False):

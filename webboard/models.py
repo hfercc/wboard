@@ -1,5 +1,7 @@
+# -*- coding: cp936 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from common import jsonobj
 
 class StatusManager(models.Manager):
 	
@@ -12,7 +14,7 @@ class StatusManager(models.Manager):
 		else:
 			return self.filter(has_verified = True)
 
-class Status(models.Model):
+class Status(jsonobj.JsonObjectModel):
 	
 	title        = models.CharField(max_length = 255)
 	body_text    = models.TextField()
@@ -23,8 +25,10 @@ class Status(models.Model):
 	#Manager
 	objects      = StatusManager()
 	
+	json_extra   = ['comments']
+	
 	def __unicode__(self):
-		return unicode(title)
+		return unicode(self.title)
 		
 	def reject(self):
 		self.delete()
@@ -40,6 +44,12 @@ class Status(models.Model):
 			comment.delete()
 		super(Status, self).delete()
 		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+		
 	class Meta:
 		permissions = (
 				('post', 'Can post statuses'),
@@ -47,13 +57,15 @@ class Status(models.Model):
 				('delete_modify', 'Can delete or modify statuses'),
 				('comment', 'Can comment statuses'),
 			)
+		verbose_name = u'¹«¸æ'
+		ordering = ['-created_time']
 		
 class CommentManager(models.Manager):
 
 	def comments(self, user):
 		return self.filter(author = user.id)
 		
-class Comment(models.Model):
+class Comment(jsonobj.JsonObjectModel):
 
 	author           = models.ForeignKey(User, related_name = 'comments')
 	body_text        = models.TextField()
@@ -63,9 +75,21 @@ class Comment(models.Model):
 	#Manager
 	objects          = CommentManager()
 	
+	json_filters     = ['status']
+	
 	def __unicode__(self):
-		return unicode('%s\'s comment' % (self.author.get_profile().nick_name))
+		return unicode('%s\'s comment' % (self.author.profile.nick_name))
 		
 	def delete(self):
 		self.notification.delete()
 		super(Comment, self).delete()
+		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+			
+	class Meta:
+		verbose_name = u'ÆÀÂÛ'
+		ordering = ['-created_time']

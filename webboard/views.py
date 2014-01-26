@@ -6,24 +6,21 @@ from django.http import HttpResponseRedirect
 from notification import send_notification, send_notification_to_admin
 
 @common.login_required
-@common.render_to('/webboard/status/list.html')
+@common.ajax_by_method('/webboard/status/list.html')
 def status_list(request):
-	return {
-			'statuses': utils.paginate_by_request(
+	return utils.paginate_to_dict(
 					Status.objects.verified_statuses, 
 					request
 			)
-	}		
 	
 @common.login_required
-@common.render_to('/webboard/status/detail.html')
+@common.ajax_by_method('/webboard/status/detail.html')
 def detail(request, status_id):
 	status = utils.get_object_by_id(Status, status_id, True)
-	return {'status': status}
+	return {'object': status}
 	
 def _add_or_modify(request, status_id = ''):
 	
-	@common.csrf_protect
 	@common.render_to('/webboard/status/add.html')
 	def get():
 		if status_id:
@@ -88,7 +85,7 @@ def delete_post(request, status_id):
 										category = 'DELETED'
 										)
 	utils.get_object_by_id(Status, status_id).delete()
-	return STATUS_SUCCESS
+	return {}
 	
 @common.login_required
 @common.permission_required('status.verify')
@@ -110,7 +107,7 @@ def verify(request, status_id):
 											category = 'REJECTED'
 											)
 		status.reject()
-	return STATUS_SUCCESS
+	return {}
 	
 #=======================Comment Part========================
 
@@ -132,7 +129,7 @@ def add_comment(request):
 											)
 	else:
 		raise exceptions.DataFieldMissed
-	return STATUS_SUCCESS
+	return {}
 	
 @common.method('POST')
 @common.login_required
@@ -141,4 +138,4 @@ def delete_comment(request, comment_id):
 	comment = utils.get_object_by_id(Comment, comment_id)
 	utils.verify_user(request, comment.author)
 	comment.delete()
-	return STATUS_SUCCESS
+	return {}

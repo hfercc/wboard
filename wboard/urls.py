@@ -18,4 +18,5 @@ urlpatterns = patterns('',
 	url(r'^pm/',       include('private_message.urls')), 
 	url(r'^accounts/', include('accounts.urls')),
 	url(r'^sae/',     include('sae_support.urls')),
+	url(r'^_sae/channel/', include('chat.urls')),
 )

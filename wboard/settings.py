@@ -32,7 +32,9 @@ TIME_ZONE = 'Asia/Chongqing'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-cn'
+
+
 
 SITE_ID = 1
 
@@ -94,11 +96,12 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 		'common.middlewares.RedirectMiddleware',
 		'common.middlewares.AjaxMiddleware',
+		'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'wboard.urls'
@@ -165,3 +168,5 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 SAE_STORAGE_DOMAIN_NAME = 'wboardstorage'
+JSON_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S' #2014-1-25 13:24:35
+CHANNEL_NAME_SPLITTER = '_'

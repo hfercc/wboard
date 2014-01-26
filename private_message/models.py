@@ -1,14 +1,20 @@
+# -*- coding: cp936 -*-
 from django.db import models
+from common import jsonobj
 from django.contrib.auth.models import User
 
-class Attachment(models.Model):
+class Attachment(jsonobj.JsonObjectModel):
 	
 	url           = models.URLField()
 	file_name     = models.CharField(max_length = 255)
 	uploaded_time = models.DateTimeField()
 	
 	def __unicode__(self):
-		return unicode('Attachment %s at %s' % (self.file_name, self.url))
+		return u'URL为%s的附件 %s。' % (self.url, self.file_name)
+		
+	class Meta(jsonobj.JsonObjectModel.Meta):
+		abstract = False
+		verbose_name = u'附件'
 		
 class PrivateMessageManager(models.Manager):		
 	
@@ -28,7 +34,7 @@ class PrivateMessageManager(models.Manager):
 		else:
 			return []
 
-class PrivateMessage(models.Model):
+class PrivateMessage(jsonobj.JsonObjectModel):
 
 	sender       = models.ForeignKey(User, related_name = 'private_message_sent')
 	receiver     = models.ForeignKey(User, related_name = 'private_message_received')
@@ -39,13 +45,14 @@ class PrivateMessage(models.Model):
 	#Manager
 	objects      = PrivateMessageManager()
 	
+	json_extra   = ['attachments']
+	
 	def __unicode__(self):
-		return unicode('Attachment from %s to %s. %d attachments contained.' % (
-				self.sender.get_profile().nick_name, 
-				self.receiver.get_profile().nick_name,
-				len(self.attachments)
+		return u'%s 给 %s 的私信。包含 %d 个附件。' % (
+				self.sender.profile.nick_name, 
+				self.receiver.profile.nick_name,
+				len(self.attachments.all())
 			)
-		)
 	
 	def mark_read(self, flag = True):
 		self.has_read = flag
@@ -54,3 +61,14 @@ class PrivateMessage(models.Model):
 	def delete(self):
 		self.notification.delete()
 		super(PrivateMessage, self).delete()
+		
+	def shorten(self):
+		if len(self.body_text)<10:
+			return self.body_text
+		else:
+			return u'%s...' % self.body_text[:10]
+			
+	class Meta(jsonobj.JsonObjectModel.Meta):
+		abstract = False
+		verbose_name = u'私信'
+		ordering = ['-created_time']
