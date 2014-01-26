@@ -96,7 +96,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 		'common.middlewares.RedirectMiddleware',
@@ -169,3 +169,4 @@ LOGGING = {
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 SAE_STORAGE_DOMAIN_NAME = 'wboardstorage'
 JSON_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S' #2014-1-25 13:24:35
+CHANNEL_NAME_SPLITTER = '_'

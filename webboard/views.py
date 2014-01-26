@@ -21,7 +21,6 @@ def detail(request, status_id):
 	
 def _add_or_modify(request, status_id = ''):
 	
-	@common.csrf_protect
 	@common.render_to('/webboard/status/add.html')
 	def get():
 		if status_id:

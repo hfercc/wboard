@@ -38,7 +38,7 @@ def delete_post(request, pm_id):
 	return {}
 	
 @common.login_required
-@common.csrf_protect
+#@common.csrf_protect
 @common.render_to('pm/write.html')
 def write_get(request):
 	return {}
