@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect, Http404
 @common.login_required
 @common.ajax_by_method('pm/list.html')
 def private_message_list(request):
-	kind = request.GET.get('kind', '')
-	objects = PrivateMessage.objects.filter_message(request.user, kind)
-	if not objects:
+	kind = request.GET.get('kind', 'all')
+	objects = PrivateMessage.objects.filter_messages(request.user, kind)
+	if not objects and request.method == 'GET':
 		raise Http404	
 	objects = utils.paginate_to_dict(objects, request)
 	objects.update({'kind': kind})
@@ -18,20 +18,14 @@ def private_message_list(request):
 @common.login_required
 @common.ajax_by_method('pm/detail.html')
 def detail(request, pm_id):
-	private_message = utils.get_object_by_id(PrivateMessage, pm_id)
+	private_message = utils.get_object_by_id(PrivateMessage, pm_id, method = request.method)
 	utils.verify_user(request, (private_message.sender, private_message.receiver))
 	return {'private_message': private_message}
 	
-@common.login_required
-def delete_get(request, pm_id):
-	private_message = utils.get_object_by_id(PrivateMessage, pm_id, True)
-	utils.verify_user(request, private_message.sender)
-	private_message.delete()
-	return HttpResponseRedirect('/pm/list/')
-	
+@common.method('POST')
 @common.login_required
 @common.ajax_request
-def delete_post(request, pm_id):
+def delete(request, pm_id):
 	private_message = utils.get_object_by_id(PrivateMessage, pm_id)
 	utils.verify_user(request, private_message.sender)
 	private_message.delete()
@@ -46,15 +40,15 @@ def write_get(request):
 @common.login_required
 @common.ajax_request
 def write_post(request):
-	form = PrivateMessageForm(request.POST)
+	form = forms.PrivateMessageForm(request.POST)
 	if form.is_valid():
 		for user in form.users_received:
 			__init__.send_private_message_and_notify(
 					request.user,
 					user,
-					form.cleaned_data.body_text,
+					form.cleaned_data['body_text'],
 					form.attachments
 			)
 	else:
-		pass   #expected to be completed
+		raise exceptions.DataFieldMissed
 	return {}

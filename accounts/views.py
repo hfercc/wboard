@@ -26,7 +26,7 @@ def logout(request):
 @common.login_required
 @common.ajax_by_method('accounts/info.html')
 def info(request, user_id):
-	user = get_object_by_id(User, user_id, True)
+	user = get_object_by_id(User, user_id, method = request.method)
 	return {'object': user}
 	
 @common.method('POST')

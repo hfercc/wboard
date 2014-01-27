@@ -13,7 +13,8 @@ def upload(request):
 		return {'status': 'success',
 						'url':    url,
 						'file_name': file_name}
-	except:
+	except Exception, e:
+		print e
 		raise common.exceptions.FileUploadFailed
 		
 @common.login_required

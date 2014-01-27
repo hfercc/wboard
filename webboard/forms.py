@@ -10,10 +10,11 @@ class StatusForm(forms.Form):
 class CommentForm(forms.Form):
 
 	body_text = forms.CharField()
-	status_id = forms.IntegerField()
+	status_id = forms.CharField()
 	
 	def clean_status_id(self):
 		try:
-			self.status = utils.get_object_by_id(models.Status, self.cleaned_data.status_id)
+			self.status = utils.get_object_by_id(models.Status, self.cleaned_data['status_id'])
 		except exceptions.ObjectNoFound:
 			raise forms.ValidationError('Cannot find the object!')
+		return self.cleaned_data['status_id']

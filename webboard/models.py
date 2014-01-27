@@ -38,9 +38,10 @@ class Status(jsonobj.JsonObjectModel):
 		self.save()
 
 	def delete(self):
-		for notification in self.notifications:
-			notification.delete()
-		for comment in self.comments:
+		for notification in self.notifications.all():
+			if notification.category != 'DELETED':
+				notification.delete()
+		for comment in self.comments.all():
 			comment.delete()
 		super(Status, self).delete()
 		

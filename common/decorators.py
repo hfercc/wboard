@@ -216,7 +216,7 @@ def ajax_request(func):
 
 #What a fuck decorator!		
 		
-def ajax_by_method(template=None, content_type=None, mimetype=None):
+def ajax_by_method(template=None, content_type=None, minetype=None):
 
 	def renderer(function):
 		

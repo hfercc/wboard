@@ -25,7 +25,7 @@ def delete(request, kind, notification_id):
 @common.login_required
 @common.ajax_by_method('notification/detail.html')
 def detail(request, kind, notification_id):
-	notification = utils.get_object_by_id(get_class(kind), notification_id)
+	notification = utils.get_object_by_id(get_class(kind), notification_id, method = request.method)
 	notification.mark_read()
 	utils.verify_user(request, notification.receiver)
 	return {'notification': notification}

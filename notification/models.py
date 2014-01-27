@@ -19,7 +19,9 @@ class Notification(jsonobj.JsonObjectModel):   #abstract class of notification
 	receiver     = models.ForeignKey(User)
 	has_read     = models.BooleanField(default = False)
 	
-	json_extra   = ['kind']
+	json_extra   = ['kind', 'url', 'message']
+	
+	objects      = NotificationManager()
 	
 	def __unicode__(self):
 		return u'%s µÄÍ¨Öª¡£' % self.receiver.profile.nick_name
@@ -27,7 +29,7 @@ class Notification(jsonobj.JsonObjectModel):   #abstract class of notification
 	def url(self):                    #abstract
 		pass
 		
-	def mark_read(self, flag):        #abstract
+	def mark_read(self, flag = True):        #abstract
 		self.has_read = flag
 		self.save()
 		

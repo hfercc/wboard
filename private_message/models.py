@@ -26,11 +26,12 @@ class PrivateMessageManager(models.Manager):
 		
 	def filter_messages(self, user, kind = 'all'):
 		if kind == 'all':
-			return user.private_message_sent + user.private_message_received
+			return list(user.private_message_sent.all()) + \
+				list(user.private_message_received.all())
 		elif kind == 'sent':
-			return user.private_message_sent
+			return user.private_message_sent.all()
 		elif kind == 'received':
-			return user.private_message_received
+			return user.private_message_received.all()
 		else:
 			return []
 

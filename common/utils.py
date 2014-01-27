@@ -37,7 +37,7 @@ def datetime_processor(obj):
 		return obj.strftime(settings.JSON_DATETIME_FORMAT)
 		
 def many_related_processor(obj):
-	if obj.__class__.__name__ == 'ManyRelatedManager':
+	if 'RelatedManager' in obj.__class__.__name__:
 		return obj.all()
 
 def get_attributes(obj, attrs, filters = [], attr_name = '', processors = []):
@@ -79,7 +79,7 @@ def paginate_by_request(objects, request, objects_per_page = 20):
 		page = int(request.GET.get('page',1))
 	except ValueError:
 		page = 1
-	return paginate(objects, object_per_page, page)
+	return paginate(objects, objects_per_page, page)
 	
 def paginate_to_dict(objects, request, objects_per_page = 20, ajax_by_request = True, is_ajax = True):
 	page = paginate_by_request(objects, request, objects_per_page)
@@ -89,20 +89,22 @@ def paginate_to_dict(objects, request, objects_per_page = 20, ajax_by_request = 
 		ajax = is_ajax
 	if not ajax:
 		return {'objects': page}
-	response = {'objects': page.objects}
-	response.update(get_attributes(page, ['has_next', 'has_previous', 'next_page_number',
-			'previous_page_number', 'end_index', 'index', 'number'], attr_name = ''))
+	response = {'objects': page.object_list}
+	response.update(get_attributes(page, ['has_next', 'has_previous',
+		 'number'], attr_name = ''))
 	return response
 	
 #get object
-def get_object_by_id(cls, id, raise_404 = False):
+def get_object_by_id(cls, id, raise_404 = False, method = ''):
 	try:
 		return cls.objects.get(id = int(id))
 	except:
+		if method:
+			raise_404 = method == 'GET'
 		if raise_404:
 			raise Http404
 		else:
-			return exceptions.ObjectNoFound
+			raise exceptions.ObjectNoFound
 		
 #file upload
 def upload_file(request, field_name):
@@ -113,12 +115,19 @@ def upload_file(request, field_name):
 		name: File name
 	)
 	'''
+	# import sae.storage
+	# client = sae.storage.Client()
+	# filename = datetime.now.strftime('%Y%m%d%H%M%s%f')
+	# file = request.FILES[field_name]
+	# obj = sae.storage.Object(file.read())
+	# url = client.put(settings.SAE_STORAGE_DOMAIN_NAME, obj)
+	# return (url, file.name)
 	import sae.storage
-	client = sae.storage.Client()
-	filename = datetime.now.strftime('%Y%m%d%H%M%s%f')
+	bucket = sae.storage.Bucket('t')
+	filename = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
 	file = request.FILES[field_name]
-	obj = sae.storage.Object(file.read())
-	url = client.put(settings.SAE_STORAGE_DOMAIN_NAME, obj)
+	bucket.put_object(filename, file)
+	url = bucket.generate_url(filename)
 	return (url, file.name)
 	
 #GET&POST
@@ -130,9 +139,11 @@ def to_callable(object_name):
 		module_name = object_name[:splitter] if splitter>=0 else ''
 		method_name = object_name[splitter+1:]
 		if splitter >= 0:
-			return getattr(__import__(module_name), method_name)
+			method = getattr(__import__(module_name, fromlist = [1]), method_name)
 		else:
-			return getattr(sys.modules[__name__], method_name)
+			method = getattr(sys.modules[__name__], method_name)
+		print method 
+		return method
 	except ImportError:
 		raise exceptions.MethodError, 'Module name error.'
 	except AttributeError:
