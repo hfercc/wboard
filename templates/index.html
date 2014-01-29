@@ -1,55 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"></head>
-    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
-    <script src="/static/semantic.js" type="text/javascript"></script>
-    <link href="/static/semantic.css" rel="stylesheet" type="text/css" />
-    <link href="/static/wboard.css" rel="stylesheet" type="text/css" />
-    <script src="/static/wboard.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <!--Check the usergroup and decide which to show.We need a judgement here.-->
-    <div class="wboard head logined">
-      <a href="#" class="item right">退出</a>
-      <label class="item right">Username</label>
-    </div>
-    <div class="ui active blue progress" style="margin-top:200px;">
-      <div class="bar" style="width:30%">
+	<head>
+		<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
+		<script src="/static/js/bootstrap.js" type="text/javascript"></script>
+	</head>
+	<body>
+	  <script type="text/javascript"> $(document).ready(function () { $('.dropdown-toggle').dropdown(); }); </script>
+	  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">主页 Home</a></li>
+            <li><a href="#">中文系统 Chinese Committee</a></li>
+            <li><a href="#">英文系统 English Committee</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+              <input class="span2" type="text" placeholder="用户名">
+              <input class="span2" type="password" placeholder="密码">
+              <button type="submit" class="btn">登录</button>
+          </form>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="ui tiny modal" id="Login">
-      <i class="close icon"></i>
-      <div class="header">登陆</div>
-      <div class="content">
-        <div class="ui form segment">
-          <div class="two fields">
-            <div class="field">
-              <label>用户名:</label>
-              <input type="text">
-            </div>
-            <div class="field">
-              <label>密码:</label>
-              <input type="password">
-            </div>
-          </div>
-        </div>
-        <div class="action">
-          <div class="ui blue button">登陆</div>
-          <div class="ui red button">取消</div>
-        </div>
-      </div>
-    </div>
-    <script language="javascript">
-	  $('[id=Login]')
-	    .modal();
-	</script>
-    <div class="ui button" id="LgnBtn">Login</div>
-	<script>
-	  $('[id=Login]').modal('attachEvents','[id=LgnBtn]','show');
-	</script>
-    <!-- Menu --> 
-    <!-- Grid -->
-    <!-- Tail -->
-  </body>
+        <ul class="nav nav-pills">
+    <li><a href="#">规则的链接</a></li>
+    <li class="dropdown" id="menutest1">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#menutest1">
+    下拉项
+    <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+    <li><a href="#">动作</a></li>
+    <li><a href="#">另一个动作</a></li>
+    <li><a href="#">其他</a></li>
+    <li class="divider"></li>
+    <li><a href="#">被间隔的链接</a></li>
+    </ul>
+    </li>
+    <li class='active'>
+    <a data-toggle="dropdown" href="#menutest1">点击我看看</a>
+    </li>
+    </ul>
+    <script src="/static/js/tab.js"></script>
+	 <script src="/static/js/transition.js"></script>
+    <script src="/static/js/alert.js"></script>
+    <script src="/static/js/modal.js"></script>
+    <script src="/static/js/dropdown.js"></script>
+    <script src="/static/js/scrollspy.js"></script>
+    <script src="/static/js/tab.js"></script>
+    <script src="/static/js/tooltip.js"></script>
+    <script src="/static/js/popover.js"></script>
+    <script src="/static/js/button.js"></script>
+    <script src="/static/js/collapse.js"></script>
+    <script src="/static/js/carousel.js"></script>
+	</body>
 </html>
