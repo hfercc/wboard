@@ -1,5 +1,5 @@
 import common
 
-@common.render_to('test.html')
+@common.render_to('index.html')
 def index(request):
 	return {}
