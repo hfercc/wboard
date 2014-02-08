@@ -120,6 +120,7 @@ def verify(request, status_id):
 @common.ajax_request
 def add_comment(request):
 	form = forms.CommentForm(request.POST)
+	print request.POST
 	if form.is_valid():
 		data = form.cleaned_data
 		comment = Comment(status = form.status,
@@ -133,7 +134,7 @@ def add_comment(request):
 											)
 	else:
 		raise exceptions.DataFieldMissed
-	return {}
+	return {'object': comment}
 	
 @common.method('POST')
 @common.login_required

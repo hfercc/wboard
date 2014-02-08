@@ -6,10 +6,12 @@ from common.ajax_response import STATUS_SUCCESS
 
 @common.method('POST')
 @common.ajax_request
+#@common.render_to('registration/login.html')
 def login(request):
 	username = request.POST.get('username', '')
 	password = request.POST.get('password', '')
 	user = auth.authenticate(username = username, password = password)
+
 	if user:
 		auth.login(request, user)
 		response = {'user':user}
@@ -17,7 +19,6 @@ def login(request):
 	else:
 		raise common.AuthenticatedFailed
 		
-@common.method('GET')
 @common.ajax_request
 def logout(request):
 	auth.logout(request)
@@ -37,7 +38,7 @@ def make_friends(request):
 	request.user.profile.friends.add(friend)
 	return {}
 	
-@common.method('GET')
+@common.method('POST')
 @common.login_required
 @common.ajax_request
 def friends(request):

@@ -65,7 +65,7 @@ class PrivateMessageNotification(Notification):
 			
 	class Meta(jsonobj.JsonObjectModel.Meta):
 		abstract = False
-		ordering = ['-created_time']
+		ordering = ['created_time']
 		verbose_name = u'к╫пем╗ж╙'
 	
 class StatusNotification(Notification):

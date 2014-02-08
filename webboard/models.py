@@ -93,4 +93,4 @@ class Comment(jsonobj.JsonObjectModel):
 			
 	class Meta:
 		verbose_name = u'ÆÀÂÛ'
-		ordering = ['-created_time']
+		ordering = ['created_time']

@@ -34,6 +34,7 @@ class HttpResponseReload(HttpResponse):
 
 def datetime_processor(obj):
 	if isinstance(obj, datetime):
+		print obj
 		return obj.strftime(settings.JSON_DATETIME_FORMAT)
 		
 def many_related_processor(obj):
@@ -79,6 +80,10 @@ def paginate_by_request(objects, request, objects_per_page = 20):
 		page = int(request.GET.get('page',1))
 	except ValueError:
 		page = 1
+	try:
+		objects_per_page = int(request.GET.get('limit','') or request.POST.get('limit',''))
+	except:
+		pass
 	return paginate(objects, objects_per_page, page)
 	
 def paginate_to_dict(objects, request, objects_per_page = 20, ajax_by_request = True, is_ajax = True):

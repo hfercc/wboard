@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block main_content %}
+<div class="wrapper col-md-12">
+	<h1 class="text-center">{{object.title}}</h1>
+	<p class="well well-sm">
+		<span class="glyphicon glyphicon-user"></span>{{object.author.profile.nick_name}}</small>
+		<span class="glyphicon glyphicon-time"></span><small>  {{object.created_time|date:"m-d H:i"}}</small>
+	</p>
+	<div class="content-main">
+		<p>{{object.body_text}}</p>
+	</div>
+	<hr/>
+</div>
+
+<div class="col-md-12">
+	<ul id="commentList" class="list-group">
+	{% for comment in object.comments.all %}
+		<li href="#" class="list-group-item">
+			<div class="row">
+			<div class="col-md-1">
+				<span class="glyphicon glyphicon-user"></span>
+			</div>
+			<div class="col-md-10">
+				<a>{{comment.author.profile.nick_name}}</a>：<br/>{{comment.body_text}}
+			
+			</div>
+			</div>
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+
+<div class="panel-body">
+	<form role="form" id="formComment">
+		<div class="form-group">
+			<textarea class="form-control" rows="5" placeholder="请在这输入评论" name="body_text"></textarea>
+		</div>
+		<input type="hidden" name="status_id" value="{{object.id}}">
+		<div class="form-group">
+			<button type="button" id="formCommentSubmit" class="pull-right btn btn-primary">提交</button>
+		</div>
+	</form>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#formComment textarea").keypress(function (e) {
+				if (e.ctrlKey && (e.which == 13 || e.which == 10)) {$("#formCommentSubmit").click()}
+			});
+			$("#formCommentSubmit").click(function () {
+				var data = api.normal("webboardCommentAdd", $("#formComment").serialize());
+				if ('status' in data)
+				{
+					var comment = data.object;
+					$("#formComment textarea").text('');
+					$("#commentList").append(
+						'<div class="panel panel-default">'+
+							'<a name="'+comment.id+'"></a>'+
+							'<div class="panel-heading">'+
+								'<a>'+
+									'<small class="text-primary">'+comment.author.nick_name+'</small>'+
+								'</a>'+
+								'<small>'+
+										'&nbsp;@'+comment.created_time+
+								'</small>'+
+							'</div>'+
+							'<p class="panel-body">'+
+								comment.body_text+
+							'</p>'+
+						'</div>'
+					);
+				}
+			});
+		});
+	</script>
+</div>
+{% endblock %}
