@@ -40,55 +40,19 @@
 					<a href="javascript:void(0);" id="btnLogout">退出</a>
 				</li>
 			</ul>
-			
+			<script type="text/javascript" src="/static/js/header.js"></script>
 			<script type="text/javascript">
-			function toggleInfo() {
-				if (hasLogined)
-				{
-					clearForm("#formLogin");
-					$("#userName").text(username);
-					$("#formLogin").hide();
-					$("#userInfo").show();
-					$("#psw").attr("placeholder", '密码');
-				}
-				else
-				{
-					$("#formLogin").show();
-					$("#userInfo").hide();
-				}
-			}
+
 			toggleInfo();
-			$("#hintLogin").popover('show');
 			$(document).ready(function () {
 				$("#formLogin input").keypress(function(e){
 					if (e.which==13) {$("#formLoginSubmit").click();}
 				});
 				$("#formLoginSubmit").click(function () {
-					var data = api.normal('accountsLogin', $("#formLogin").serialize());
-					if (data.hasOwnProperty('status'))
-					{
-						hasLogined = true;
-						username = data.user.nick_name;
-						toggleInfo();
-					}
-					else
-					{
-						//$("#hintLogin").popover('show');
-						$("#psw").attr("placeholder", "密码错误");
-						$("#psw").val("");
-						$("#psw").focus();
-						//setTimeout(function(){$("#hintLogin").popover('hide')}, 3000);
-					}
+					login();
 				});
 				$("#btnLogout").click(function () {
-					var data = api.normal('accountsLogout');
-					if (data.hasOwnProperty('status'))
-					{
-						hasLogined = false;
-						username = '';
-						toggleInfo();
-					}
-					return false;
+					logout();
 				});
 			});
 			</script>

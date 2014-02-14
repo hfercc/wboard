@@ -118,6 +118,13 @@ def verify(request, status_id):
 @common.method('POST')
 @common.login_required
 @common.ajax_request
+def comment_list(request):
+	status = utils.get_object_by_id(Status, request.POST.get('status_id', ''))
+	return utils.paginate_to_dict(status.comments.all(), request)
+
+@common.method('POST')
+@common.login_required
+@common.ajax_request
 def add_comment(request):
 	form = forms.CommentForm(request.POST)
 	print request.POST

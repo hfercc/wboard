@@ -12,22 +12,7 @@
 	<hr/>
 </div>
 
-<div class="col-md-12">
-	<ul id="commentList" class="list-group">
-	{% for comment in object.comments.all %}
-		<li href="#" class="list-group-item">
-			<div class="row">
-			<div class="col-md-1">
-				<span class="glyphicon glyphicon-user"></span>
-			</div>
-			<div class="col-md-10">
-				<a>{{comment.author.profile.nick_name}}</a>：<br/>{{comment.body_text}}
-			
-			</div>
-			</div>
-		</li>
-	{% endfor %}
-	</ul>
+<div id="commentList" class="col-md-12">
 </div>
 
 <div class="panel-body">
@@ -40,34 +25,16 @@
 			<button type="button" id="formCommentSubmit" class="pull-right btn btn-primary">提交</button>
 		</div>
 	</form>
+    <script type="text/javascript" src="/static/js/list.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
+			commentsList = new List("webboardCommentList", "#commentList", '<div class="popover top in"><div class="arrow"></div><h3 class="popover-title">{author.nick_name}@{created_time}</h3><div class="popover-content"><p>{body_text}</p></div></div>', {status_id: {{object.id}}, limit:5});
+			commentsList.update();
 			$("#formComment textarea").keypress(function (e) {
 				if (e.ctrlKey && (e.which == 13 || e.which == 10)) {$("#formCommentSubmit").click()}
 			});
 			$("#formCommentSubmit").click(function () {
-				var data = api.normal("webboardCommentAdd", $("#formComment").serialize());
-				if ('status' in data)
-				{
-					var comment = data.object;
-					$("#formComment textarea").text('');
-					$("#commentList").append(
-						'<div class="panel panel-default">'+
-							'<a name="'+comment.id+'"></a>'+
-							'<div class="panel-heading">'+
-								'<a>'+
-									'<small class="text-primary">'+comment.author.nick_name+'</small>'+
-								'</a>'+
-								'<small>'+
-										'&nbsp;@'+comment.created_time+
-								'</small>'+
-							'</div>'+
-							'<p class="panel-body">'+
-								comment.body_text+
-							'</p>'+
-						'</div>'
-					);
-				}
+				var data = api.normal("webboardCommentAdd", function () {commentsList.update()},$("#formComment").serialize());
 			});
 		});
 	</script>
