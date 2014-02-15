@@ -14,7 +14,7 @@ class JsonObjectModel(models.Model):     #abstract
 	json_filters = []
 	json_extra   = []
 
-	def get_json_object(self):
+	def get_json_object(self, request):
 		if not hasattr(self, 'objects'):
 			attrs = utils.get_model_fields(self)
 			attrs.extend(self.json_extra)
@@ -22,7 +22,8 @@ class JsonObjectModel(models.Model):     #abstract
 				self, 
 				attrs, 
 				self.json_filters, 
-				processors = [utils.datetime_processor, utils.many_related_processor]
+				processors = [utils.datetime_processor, utils.many_related_processor],
+				request = request
 			)
 		return self.objects
 		
@@ -44,14 +45,14 @@ class JsonObjectModel(models.Model):     #abstract
 is_user_instance = lambda x: x.__class__.__name__ == 'User' \
 	and x.__class__.__module__ == 'django.contrib.auth.models'		
 		
-def serialize_models(obj):
+def serialize_models(obj, request):
 
 	if isinstance(obj, JsonObjectModel):
-		obj = obj.get_json_object()
+		obj = obj.get_json_object(request)
 	elif isinstance(obj, models.query.QuerySet):
 		obj = list(obj)
 	elif is_user_instance(obj):
-		return obj.profile.get_json_object()
+		return obj.profile.get_json_object(request)
 
 	if isinstance(obj, dict):
 		iter_object = obj
@@ -64,12 +65,12 @@ def serialize_models(obj):
 	
 	for key in iter_object:
 		if hasattr(new_obj[key], 'get_json_object'):
-			new_obj[key] = new_obj[key].get_json_object()
+			new_obj[key] = new_obj[key].get_json_object(request)
 		elif isinstance(new_obj[key], models.query.QuerySet):
 			new_obj[key] = list(new_obj[key])
 		elif is_user_instance(new_obj[key]):
-			new_obj[key] = new_obj[key].profile.get_json_object()
+			new_obj[key] = new_obj[key].profile.get_json_object(request)
 		if isinstance(new_obj[key], (list, dict, tuple)):
-			new_obj[key] = serialize_models(new_obj[key])
+			new_obj[key] = serialize_models(new_obj[key], request)
 			
 	return new_obj

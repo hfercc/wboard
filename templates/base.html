@@ -4,20 +4,7 @@
 	<script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
-	<script src="/static/js/bootstrap.js" type="text/javascript"></script>
-	<script src="/static/js/tab.js"></script>
-	<script src="/static/js/transition.js"></script>
-	<script src="/static/js/alert.js"></script>
-	<script src="/static/js/modal.js"></script>
-	<script src="/static/js/dropdown.js"></script>
-	<script src="/static/js/scrollspy.js"></script>
-	<script src="/static/js/tab.js"></script>
-	<script src="/static/js/tooltip.js"></script>
-	<script src="/static/js/popover.js" type="text/javascript"></script>
-	<script src="/static/js/button.js"></script>
-	<script src="/static/js/collapse.js"></script>
-	<script src="/static/js/carousel.js"></script>
-	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/static/js/popover-utils.js"></script>
 	<style>
 		textarea {
 			resize: none;
@@ -30,6 +17,7 @@
 		username = "{{user.profile.nick_name}}";
 		$(document).ready(function () {
 			$("form").submit(function(e){e.preventDefault();});
+			$(".dropdown-toggle").dropdown();
 		});
 	</script>
 	<!-- Menu Starts-->
@@ -47,6 +35,19 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="/static/js/bootstrap.js" type="text/javascript"></script>
+	<script src="/static/js/tab.js"></script>
+	<script src="/static/js/transition.js"></script>
+	<script src="/static/js/alert.js"></script>
+	<script src="/static/js/modal.js"></script>
+	<script src="/static/js/dropdown.js"></script>
+	<script src="/static/js/scrollspy.js"></script>
+	<script src="/static/js/tab.js"></script>
+	<script src="/static/js/tooltip.js"></script>
+	<script src="/static/js/popover.js" type="text/javascript"></script>
+	<script src="/static/js/button.js"></script>
+	<script src="/static/js/collapse.js"></script>
+	<script src="/static/js/carousel.js"></script>
+	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
 </body>
 </html>

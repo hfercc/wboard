@@ -1,0 +1,10 @@
+﻿{% extends "base.html" %}
+{% block main_content %}
+  <button id="button" type="button" class="btn btn-default" data-toggle="popover" data-placement="right" data-container="body" data-content="" data-html="true" data-trigger="hover" data-delay="1000">link</button>
+  <button data-id="1" class="user-name">test</button>
+  <script>
+  $(document).ready(function(){$("#button").on("show.bs.popover", function(e) {
+																		   $("#button").attr("data-content", "3");
+																		   }).popover("hide");initUserName()});
+  </script>
+{% endblock %}

@@ -1,0 +1,29 @@
+<form id="uploadForm" role="form" class="form-inline" enctype="multipart/form-data">
+	<div class="form-group col-sm-9">
+		<input type="file" name="file" id="uploadFile" />
+    </div>
+    <div class="form-group col-sm-2">
+    <button type="button" id="uploadButton" data-loading-text="上传中…" class="btn btn-primary btn-sm">上传</button></div>
+</form>
+<script type="text/javascript" src="/static/js/ajaxfileupload.js"></script>
+<script>
+$(document).ready(function(){
+	$("#uploadButton").click(
+		function() {
+				console.log($("#uploadForm"));
+				$.ajaxFileUpload({
+					 type: "post",
+					 url: "/sae/upload/",
+					 secureuri: false,
+					 fileElementId: "uploadFile",
+					/* dataType: "json",*/
+					 success: function(data, status) {
+						 var obj = eval("("+data.getElementsByTagName("pre")[0].innerHTML+")");
+						 alert(uploadCallback);
+						 uploadCallback(obj);
+						 }
+					// error: function(data, status, e) {console.log(e);}
+								 });
+		})
+});
+</script>

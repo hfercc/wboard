@@ -25,10 +25,5 @@ API.prototype.has_id = function (apiName, func, id, args) {
 		var url = '/'+apiName.replace(/[A-Z][a-z]*/g, function(word){return '/'+word.toLowerCase()})+'/'+id+'/';
 		return ajax(url,args, 'POST',func);
 	};
-	
-API.prototype.notification = function (apiName, func, kind, id, args) {
-		var url = '/'+apiName.replace(/[A-Z][a-z]*/g, function(word){return '/'+word.toLowerCase()})+'/'+kind+'/'+id+'/';
-		return ajax(url, args, 'POST',func);
-	};
 })();
 api = new API();

@@ -1,21 +1,40 @@
 {% extends "base.html" %}
 {% block main_content %}
+
+{% include "webboard/status/add.html" %}
+
 <div class="wrapper col-md-12">
-	<h1 class="text-center">{{object.title}}</h1>
-	<p class="well well-sm">
-		<span class="glyphicon glyphicon-user"></span>{{object.author.profile.nick_name}}</small>
-		<span class="glyphicon glyphicon-time"></span><small>  {{object.created_time|date:"m-d H:i"}}</small>
-	</p>
+	<h2 class="text-center page-header">{{object.title}}</h2>
+	<h6 class="well well-sm">
+		<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<button data-id="{{object.author.id}}" class=" btn-xs btn btn-link user-name"><small>{{object.author.profile.nick_name}}</small></button>&nbsp;&nbsp;
+		<span class="glyphicon glyphicon-time"></span><small>&nbsp;&nbsp;{{object.created_time|date:"m-d H:i"}}</small>&nbsp;&nbsp;
+        {% if perms.status.delete_modify %}
+        <button onclick="showAddForm('modify');" class="btn btn-link btn-sm">修改</button>
+        {% endif %}
+        {% if not object.has_verified %}
+        <div id="btnGroupVerify" class="btn-group">
+        	<button class="btn btn-danger btn-xs dropdown-toggle" data-toggle="dropdown" class="btn btn-link btn-xs">
+            	未认证
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><button id="btnVerify" class="btn btn-link btn-sm">验证</button></li>
+                <li><button id="btnReject" class="btn btn-link btn-sm">拒绝</button></li>
+            </ul>
+        </div>
+        {% endif %}
+	</h6>
 	<div class="content-main">
-		<p>{{object.body_text}}</p>
+		<p id="mainText">{{object.body_text}}</p>
 	</div>
-	<hr/>
 </div>
 
-<div id="commentList" class="col-md-12">
-</div>
-
-<div class="panel-body">
+<div class="col-md-12">
+    <div class="page-header">
+    	<h2>评论</h2>
+    </div>
+    <blockquote id="commentList" class="col-md-12">
+    </blockquote>
 	<form role="form" id="formComment">
 		<div class="form-group">
 			<textarea class="form-control" rows="5" placeholder="请在这输入评论" name="body_text"></textarea>
@@ -28,13 +47,36 @@
     <script type="text/javascript" src="/static/js/list.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			commentsList = new List("webboardCommentList", "#commentList", '<div class="popover top in"><div class="arrow"></div><h3 class="popover-title">{author.nick_name}@{created_time}</h3><div class="popover-content"><p>{body_text}</p></div></div>', {status_id: {{object.id}}, limit:5});
+			commentsList = new List("webboardCommentList", "#commentList", '<div class="panel-sm panel panel-default"><div class="panel-heading"><h6 class="panel-title">{author.nick_name}</h6></div><div class="panel-body">{body_text}</div><div class="panel-footer text-right"><small>{created_time}</small></div></div>', {status_id: {{object.id}}, limit:5});
 			commentsList.update();
+			$("#mainText").html(processBodyText("{{object.body_text}}"));
 			$("#formComment textarea").keypress(function (e) {
 				if (e.ctrlKey && (e.which == 13 || e.which == 10)) {$("#formCommentSubmit").click()}
 			});
+			$("#btnVerify").click(function () {
+				api.has_id("webboardVerify", function(data) {
+													  if ('status' in data) {
+														  $("#btnGroupVerify").hide();
+													  }
+							}, "{{object.id}}");
+			});
+			$("#btnReject").click(function () {
+				api.has_id("webboardVerify", function(data) {
+													  if ('status' in data) {
+														  jump("/webboard/list/");
+													  }
+							}, "{{object.id}}", {action: "reject"});
+			});
 			$("#formCommentSubmit").click(function () {
-				var data = api.normal("webboardCommentAdd", function () {commentsList.update()},$("#formComment").serialize());
+				var form = $("#formComment");
+				var textarea = $("#formComment [name=body_text]");
+				if (!textarea.val())
+				{
+					textarea.focus();
+					textarea.attr("placeholder", "输入文本不为空");
+					return;
+				}
+				var data = api.normal("webboardCommentAdd", function () {commentsList.update();textarea.attr("placeholder", "请在这输入评论");clearForm("#formComment");initUserName();},$("#formComment").serialize());
 			});
 		});
 	</script>
