@@ -4,7 +4,6 @@ function List(api, id, format, args) {
 	this.apiName = api;
 	this.format = format;
 	var containerName = id+'Container';
-	this.list.append("<div class='container col-md-12' id='"+containerName.substr(1)+"'></div>");
 	var pagerName = id+'Pager';
 	this.list.append("<div class='pager' id='"+pagerName.substr(1)+"'><button class='previous btn btn-link'>上一页</button><button class='next btn btn-link'>下一页</button></div>");
 	this.container = $(containerName);
@@ -63,7 +62,6 @@ function List(api, id, format, args) {
 												//console.log(data.objects[i]);
 												self.add(data.objects[i]);
 											}
-											$("#commentListContainer .popover").popover('show');
 										 }
 									},
 				this.arguments, parseInt(this.list.attr("page")));
@@ -75,4 +73,7 @@ function List(api, id, format, args) {
 	List.prototype.clear = function () {
 		this.container.text("");
 	};
+	List.prototype.popover = function() {
+		$(this.containerName+' .popover').popover();
+	}
 })();

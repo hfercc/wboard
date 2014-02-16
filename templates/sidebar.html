@@ -5,30 +5,12 @@
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarNotify">站内通知</a>
 			</h4>
 		</div>
-		<div id="sidebarNotify" class="panel-collapse collapse">
-			<div id="notifyBody" class="panel-body" page="" hasnext="" hasprevious="">
-				<button id="notifyPrevious" class="btn btn-link btn-xs pull-right">上一页</button>
-				<button id="notifyNext" class="btn btn-link btn-xs pull-right">下一页</button>
-			</div>
-			<ul id="notifyList" class="list-group">
-				
-			</ul>
-		</div>
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarEmail">站内邮件</a>
 			</h4>
-		</div>
-		<div id="sidebarEmail" class="panel-collapse collapse">
-			<div id="emailBody" class="panel-body" page="" hasnext="" hasprevious="">
-				<button id="emailPrevious" class="btn btn-link btn-xs pull-right">上一页</button>
-				<button id="emailNext" class="btn btn-link btn-xs pull-right">下一页</button>
-			</div>
-			<ul id="emailList" class="list-group">
-				
-			</ul>
 		</div>
 	</div>
 	<div class="panel panel-default">
@@ -38,82 +20,13 @@
 				 操作
 				</a>
 			</h4>
-		</div>
+		</div>{% if perms.status.post %}
 		<div id="collapseThree" class="panel-collapse collapse">
 			<div class="panel-body">
-						{% if perms.status.post %}
+						
 							<a href="javascript:void(0);">发布公告</a>
-						{% endif %}
+						
 			</div>
-		</div>
+		</div>{% endif %}
 	</div>
-	
-	<script type="text/javascript">
-	function updateList(kind, url, page) {
-		if (!page) page=1;
-		var data = api.page(url, {kind:'all', limit:5}, page);
-		var body = $("#"+kind+"Body");
-		var next = $("#"+kind+"Next");
-		if ('status' in data)
-		{
-			var hasNext = data['has_next'];
-			if (hasNext)
-			{
-				body.attr('hasnext', 'true');
-				next.removeClass('disabled');
-			}
-			else
-			{
-				body.attr('hasnext', '');
-				next.addClass('disabled');
-			}
-			var hasPrevious = data['has_previous'];
-			var previous = $("#"+kind+"Previous")
-			if (hasPrevious)
-			{
-				body.attr('hasprevious', 'true');
-				previous.removeClass('disabled');
-			}
-			else
-			{
-				body.attr('hasprevious', '');
-				previous.addClass('disabled');
-			}				
-			var list = $("#"+kind+"List");
-			list.empty();
-			for (var i=0;i<data.objects.length;i++)
-			{
-				var obj=data.objects[i];
-				var muted=obj.has_read?'':'muted';
-				list.append('<li class="list-group-item '+muted+'"><h6 class="list-group-item-heading"><em>'+obj.created_time+'</em></h6><a href="'+obj.url+'"><small class="list-group-item-text">'+obj.message+'</small></a></li>');
-			}
-			body.attr('page', data.number);
-		}
-	}
-	$(document).ready(function(){
-		$("#sidebarNotify").on('shown.bs.collapse', function () {
-			var body = $("#notifyBody");
-			if (body.attr("page")) {return}
-			updateList('notify', 'notifyList');
-		});
-		$("#notifyNext").click(function () {
-			updateList('notify', 'notifyList',parseInt($("#notifyBody").attr("page"))+1);
-		});
-		$("#notifyPrevious").click(function () {
-			updateList('notify', 'notifyList',parseInt($("#notifyBody").attr("page"))-1);
-		});
-		
-		$("#sidebarEmail").on('shown.bs.collapse', function () {
-			var body = $("#emailBody");
-			if (body.attr("page")) {return}
-			updateList('email', 'pmList');
-		});
-		$("#emailNext").click(function () {
-			updateList('email', 'pmList',parseInt($("#emailBody").attr("page"))+1);
-		});
-		$("#emailPrevious").click(function () {
-			updateList('email', 'pmList',parseInt($("#emailBody").attr("page"))-1);
-		});
-	});
-	</script>
 </div>

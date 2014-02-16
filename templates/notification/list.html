@@ -1,0 +1,17 @@
+<div class="col-md-12" id="NotificationList">
+  <div class="panel panel-default">
+    <div class="panel-body">{message} 详情：{url}></div>
+    <div class="panel-footer">{created_time}</div>
+  </div>
+</div>
+<script type="text/javascript" src="/static/js/list.js"></script>
+<script>
+  $(document).ready(){
+    function () {
+	   notificationlist=new List("notification_list","#NotificationList",'<div class="panel panel-default>'+
+	     '<div class="panel-body">{message} 详情：{url}></div>'+
+	     '<div class="panel-footer">{created_time}</div>',{});
+	   notificationlist.update();
+    }
+  }
+</script>
