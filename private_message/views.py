@@ -7,8 +7,11 @@ from django.http import HttpResponseRedirect, Http404
 @common.login_required
 @common.ajax_by_method('pm/list.html')
 def private_message_list(request):
-	kind = request.GET.get('kind', 'all')
+	kind = request.GET.get('kind', 'all') or request.POST.get('kind', 'all')
 	objects = PrivateMessage.objects.filter_messages(request.user, kind)
+	user_id = request.GET.get('user_id', '') or request.POST.get('user_id', '')
+	if user_id:
+		objects = objects.filter(sender = user_id) + objects.filter(receiver = user_id)
 	if not objects and request.method == 'GET':
 		raise Http404	
 	objects = utils.paginate_to_dict(objects, request)

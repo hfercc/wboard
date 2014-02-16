@@ -10,9 +10,11 @@ from wboard.settings import CHANNEL_NAME_SPLITTER
 def upload(request):
 	try:
 		url, file_name = utils.upload_file(request, 'file')
-		return {'status': 'success',
+		data= {'status': 'success',
 						'url':    url,
 						'file_name': file_name}
+		print data
+		return data
 	except Exception, e:
 		print e
 		raise common.exceptions.FileUploadFailed

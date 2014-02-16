@@ -27,6 +27,13 @@
 	<div class="content-main">
 		<p id="mainText">{{object.body_text}}</p>
 	</div>
+<<<<<<< HEAD
+	<hr/>
+</div>
+
+<div id="commentListContainer" class="col-md-12">
+=======
+>>>>>>> 39d8de0fa6fe57841670e899d23b41318a975bc6
 </div>
 
 <div class="col-md-12">
@@ -49,7 +56,7 @@
 		$(document).ready(function () {
 			commentsList = new List("webboardCommentList", "#commentList", '<div class="panel-sm panel panel-default"><div class="panel-heading"><h6 class="panel-title">{author.nick_name}</h6></div><div class="panel-body">{body_text}</div><div class="panel-footer text-right"><small>{created_time}</small></div></div>', {status_id: {{object.id}}, limit:5});
 			commentsList.update();
-          commentsList.popover();
+			$("#mainText").html(processBodyText("{{object.body_text}}"));
 			$("#formComment textarea").keypress(function (e) {
 				if (e.ctrlKey && (e.which == 13 || e.which == 10)) {$("#formCommentSubmit").click()}
 			});

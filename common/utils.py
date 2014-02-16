@@ -41,7 +41,7 @@ def many_related_processor(obj):
 	if 'RelatedManager' in obj.__class__.__name__:
 		return obj.all()
 
-def get_attributes(obj, attrs, filters = [], attr_name = '', processors = []):
+def get_attributes(obj, attrs, filters = [], attr_name = '', processors = [], request = None):
 	
 	def get_attr_name(attr):
 		if not attr_name:
@@ -55,7 +55,11 @@ def get_attributes(obj, attrs, filters = [], attr_name = '', processors = []):
 		if name in filters:
 			continue
 		a = getattr(obj, name)
-		result[name] = a() if callable(a) else a
+		if '__request' in name:
+			name = name[:-9]
+			result[name] = a(request)
+		else:
+			result[name] = a() if callable(a) else a
 		for processor in processors:
 			process_result = processor(result[name])
 			if process_result is not None:
@@ -133,6 +137,7 @@ def upload_file(request, field_name):
 	file = request.FILES[field_name]
 	bucket.put_object(filename, file)
 	url = bucket.generate_url(filename)
+	print url
 	return (url, file.name)
 	
 #GET&POST

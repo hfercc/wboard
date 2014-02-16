@@ -8,10 +8,12 @@ from notification import send_notification, send_notification_to_admin
 @common.login_required
 @common.ajax_by_method('webboard/status/list.html')
 def status_list(request):
-	return utils.paginate_to_dict(
+	data = utils.paginate_to_dict(
 					Status.objects.verified_statuses(), 
 					request
 			)
+	print data['objects'].object_list
+	return data
 	
 @common.login_required
 @common.ajax_by_method('webboard/status/detail.html')
@@ -49,7 +51,7 @@ def _add_or_modify(request, status_id = ''):
 		else:
 			raise exceptions.DataFieldMissed
 				
-		return STATUS_SUCCESS
+		return {'object': status}
 		
 	if request.method == 'POST':
 		return post(request, status_id)
@@ -96,7 +98,7 @@ def delete(request, status_id):
 @common.ajax_request
 def verify(request, status_id):
 	status = utils.get_object_by_id(Status, status_id)
-	action = request.GET.get('action', '')
+	action = request.POST.get('action', 'verify') or request.GET.get('action', 'verify')
 	if action == 'verify':
 		send_notification(status.author, 
 											'status',

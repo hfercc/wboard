@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from common.ajax_response import STATUS_SUCCESS
 
-@common.method('POST')
-@common.ajax_request
-#@common.render_to('registration/login.html')
+#@common.method('POST')
+#@common.ajax_request
+@common.ajax_by_method('registration/login.html')
 def login(request):
+	if request.method == 'GET':
+		return {}
 	username = request.POST.get('username', '')
 	password = request.POST.get('password', '')
 	user = auth.authenticate(username = username, password = password)
@@ -34,8 +36,15 @@ def info(request, user_id):
 @common.login_required
 @common.ajax_request
 def make_friends(request):
+	action = request.POST.get("action",'') or request.GET.get("action", '')
 	friend = get_object_by_id(User, request.POST.get('id', ''))
-	request.user.profile.friends.add(friend)
+	if action == 'add':
+		request.user.profile.friends.add(friend)
+	elif action == 'remove':
+		if friend in request.user.profile.friends.all():
+			request.user.profile.friends.remove(friend)
+		else:
+			return {}
 	return {}
 	
 @common.method('POST')

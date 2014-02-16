@@ -4,7 +4,10 @@ function List(api, id, format, args) {
 	this.apiName = api;
 	this.format = format;
 	var containerName = id+'Container';
+<<<<<<< HEAD
+=======
 	this.list.append("<div class='container col-md-10 col-md-offset-1' id='"+containerName.substr(1)+"'></div>");
+>>>>>>> 39d8de0fa6fe57841670e899d23b41318a975bc6
 	var pagerName = id+'Pager';
 	this.list.append("<div class='pager pull-right' id='"+pagerName.substr(1)+"'><button class='previous btn btn-link'>上一页</button><button class='next btn btn-link'>下一页</button></div>");
 	this.container = $(containerName);

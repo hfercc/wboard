@@ -205,7 +205,7 @@ def ajax_request(func):
             format_type = 'application/json'
         response = func(request, *args, **kwargs)
         if not isinstance(response, HttpResponse):
-            response = jsonobj.serialize_models(response)
+            response = jsonobj.serialize_models(response, request)
             if isinstance(response, dict):
                 response.update(ajax_response.STATUS_SUCCESS)
             data = FORMAT_TYPES[format_type](response)
