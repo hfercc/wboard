@@ -35,6 +35,7 @@ function List(api, id, format, args) {
 								});
 	}
 	List.prototype.update = function () {
+		clearUserName();
 		var self = this;
 		api.page(this.apiName, function (data) {
 										 self.clear();

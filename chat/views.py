@@ -1,5 +1,5 @@
 import common
-from common import exceptions, utils
+from common import exceptions, utils, kv
 import sae
 from private_message import send_private_message
 from wboard import settings
@@ -16,8 +16,14 @@ def message(request):
 	
 @common.ajax_request
 def connected(request):
+	name = request.POST.get('from', '')
+	if '___' in name:
+		utils.send_unread(name.split('___')[0])
 	return {}
 	
 @common.ajax_request
 def disconnected(request):
+	name = request.POST.get('from', '')
+	if '___' in name:
+		kv.del_url(name)
 	return {}

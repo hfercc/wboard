@@ -4,6 +4,8 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from datetime import datetime
 from wboard import settings
 from django.http import Http404
+from notification import models
+import kv
 import exceptions
 import sys
 
@@ -176,3 +178,13 @@ def verify_user(request, users):
 		users = [users]
 	if not filter(lambda user: request.user == user, users):
 		raise exceptions.AccessDenied
+		
+#Get unread
+def get_unread(user):
+	#p = len(PrivateMessage.objects.unread_messages(user))
+	n = reduce(lambda x,y:x+y, (len(c.objects.unread_notifications(user)) \
+		for c in (models.CommentNotification, models.PrivateMessageNotification, models.StatusNotification)))
+	return n
+	
+def send_unread(user):
+	kv.send_all(user.id, str(get_unread(user)))

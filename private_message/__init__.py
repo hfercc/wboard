@@ -16,5 +16,6 @@ def send_private_message(sender, receiver, message, attachments = []):
 	
 def send_private_message_and_notify(sender, receiver, message, attachments = []):
 	pm = send_private_message(sender, receiver, message)
-	notification.send_notification(pm.receiver, 'pm', private_message = pm)
+	if pm.sender != pm.receiver:
+		notification.send_notification(pm.receiver, 'pm', private_message = pm)
 	return pm

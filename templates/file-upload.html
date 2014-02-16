@@ -19,7 +19,6 @@ $(document).ready(function(){
 					/* dataType: "json",*/
 					 success: function(data, status) {
 						 var obj = eval("("+data.getElementsByTagName("pre")[0].innerHTML+")");
-						 alert(uploadCallback);
 						 uploadCallback(obj);
 						 }
 					// error: function(data, status, e) {console.log(e);}

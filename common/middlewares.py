@@ -8,6 +8,8 @@ from exceptions import Redirect, AjaxError
 from django.http import HttpResponse
 import json
 
+class 
+
 class AjaxMiddleware(object):
 	
 	def process_exception(self, request, exception):

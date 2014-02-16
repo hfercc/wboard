@@ -1,6 +1,7 @@
 import models
 from models import Notification
 from django.contrib.auth.models import User
+from common import utils
 
 notification_classes = {'comment': models.CommentNotification,
 												'status' : models.StatusNotification,
@@ -18,6 +19,7 @@ def send_notification(receiver, kind, **kw_args):
 	elif kind == 'pm':
 		n = cls(receiver = receiver, private_message = kw_args['private_message'])
 	n.save()
+	utils.send_unread(receiver)
 	return n
 	
 def send_notification_to_admin(kind, **kw_args):
