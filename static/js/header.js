@@ -2,15 +2,16 @@ function toggleInfo() {
 	if (hasLogined)
 	{
 		clearForm("#formLogin");
-		$("#userName").text(username);
 		$("#formLogin").hide();
 		$("#userInfo").show();
 		$("#psw").attr("placeholder", '密码');
+		$("#top1").show();
 	}
 	else
 	{
 		$("#formLogin").show();
 		$("#userInfo").hide();
+		$("#top1").hide();
 	}
 }
 function login(){
@@ -18,8 +19,9 @@ function login(){
 										    if (data.hasOwnProperty('status'))
 											{
 												hasLogined = true;
-												username = data.user.nick_name;
+												username = data.user.username;
 												toggleInfo();
+												changeUserName();
 											}
 											else
 											{
@@ -38,7 +40,9 @@ function logout(){
 											{
 												hasLogined = false;
 												username = '';
+												$("#userName").text(username);
 												toggleInfo();
 											}
 										  });
+   jump("/");
 }
