@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block main_content %}
+<a data-toggle="modal" data-target="#addDialog">Click ME</a>
 <div class="modal fade" id="addDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" >
     	<div class="modal-content">
@@ -55,3 +58,4 @@
 													});
 	});
 </script>
+{% endblock %}
