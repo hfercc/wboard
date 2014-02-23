@@ -1,25 +1,16 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-transparent navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span>
+				<span class="sr-only">触发菜单</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
 		</div>
 		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="#">主页 Home</a></li>
-				<li class="dropdown" id="CommSel">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#CommSel">选择系统语言 Choose Language
-					<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">中文系统</a></li>
-							<li><div class="divider"></div></li>
-							<li><a href="#">English Committee</a></li>
-						</ul>
-				</li>
+			<ul class="nav navbar-nav" id="top">
+				<li><a href="/">主页</a></li>
 			</ul>
 			
 			<form id="formLogin" class="navbar-form navbar-right" role="form">
@@ -31,10 +22,13 @@
 				</div>
 				<button id="formLoginSubmit" type="button" class="btn btn-success">登录</button>
 			</form>
-	
-			<ul class="nav navbar-nav navbar-right" id="userInfo">
+			<ul class="nav navbar-nav"  id="top1">
+			   <li><a href="/webboard/list/">公告</a></li>
+			   <li><a href=" ">聊天</a></li>	
+			</ul>
+			<ul class="nav navbar-nav pull-right" id="userInfo">
 				<li>
-					<a id="userName" href="#">{{user.profile.nick_name}}</a>
+					<p class="navbar-text" id="userName">{{user.username}}</a>
 				</li>
 				<li>
 					<a href="javascript:void(0);" id="btnLogout">退出</a>
@@ -42,7 +36,6 @@
 			</ul>
 			<script type="text/javascript" src="/static/js/header.js"></script>
 			<script type="text/javascript">
-
 			toggleInfo();
 			$(document).ready(function () {
 				$("#formLogin input").keypress(function(e){

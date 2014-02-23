@@ -5,6 +5,8 @@
 	<script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/popover-utils.js"></script>
+    	<script src="/static/js/carousel.js"></script>
+    <link href="/static/css/wboard.css" rel="stylesheet"></link>
 	<style>
 		textarea {
 			resize: none;
@@ -20,21 +22,8 @@
 			$(".dropdown-toggle").dropdown();
 		});
 	</script>
-	<!-- Menu Starts-->
 	{% include "header.html" %}
-	<!-- Menu Ends -->
-	<!-- Main Starts -->
-	<div class="container">
-		<div class="row">
-			<!-- Sidebar starts -->
-			<div class="col-md-3">
-				{% block sidebar %}{% include "sidebar.html" %}{% endblock %}
-			</div>
-			<div class="col-md-6">
-			{% block main_content %}{% endblock %}
-			</div>
-		</div>
-	</div>
+	{% block main_content %}{% include "index.html" %}{% endblock %}
 	<script src="/static/js/bootstrap.js" type="text/javascript"></script>
 	<script src="/static/js/tab.js"></script>
 	<script src="/static/js/transition.js"></script>
@@ -47,7 +36,6 @@
 	<script src="/static/js/popover.js" type="text/javascript"></script>
 	<script src="/static/js/button.js"></script>
 	<script src="/static/js/collapse.js"></script>
-	<script src="/static/js/carousel.js"></script>
 	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
 </body>
 </html>
