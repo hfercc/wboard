@@ -30,7 +30,6 @@ function List(api, id, format, args) {
 										data = data[attr];
 										attr = pattern.exec(w);
 									}
-									//console.log(data);
 									return data;
 								});
 	}
@@ -39,9 +38,7 @@ function List(api, id, format, args) {
 		var self = this;
 		api.page(this.apiName, function (data) {
 										 self.clear();
-										// console.log(data.status);
 										 if ('status' in data) {
-										//	console.log('yes');
 											if (data.has_previous) {
 												self.pager.previous.removeClass("disabled");
 												self.list.attr("previous", "true");
@@ -61,7 +58,6 @@ function List(api, id, format, args) {
 											self.list.attr("page", data.number);
 											for (var i=0;i<data.objects.length;i++)
 											{
-												//console.log(data.objects[i]);
 												self.add(data.objects[i]);
 											}
 											$("#commentListContainer .popover").popover('show');
@@ -72,7 +68,6 @@ function List(api, id, format, args) {
 	List.prototype.add = function (obj) {
 		this.container.append(processData(this.format, obj));
 		initUserName();
-		//console.log(this.container);
 	};
 	List.prototype.clear = function () {
 		this.container.text("");

@@ -1,7 +1,29 @@
 import os
 HERE = os.path.dirname(__file__)
 
-DEBUG = True
+import os.path
+
+from os import environ
+
+debug = not environ.get("APP_NAME", "") 
+if debug:
+    MYSQL_DB = 'app_wboard' 
+    MYSQL_USER = 'root' 
+    MYSQL_PASS = '12345' 
+    MYSQL_HOST_M = '127.0.0.1' 
+    MYSQL_HOST_S = '127.0.0.1' 
+    MYSQL_PORT = '3306' 
+else: 
+#SAE
+    import sae.const 
+    MYSQL_DB = sae.const.MYSQL_DB 
+    MYSQL_USER = sae.const.MYSQL_USER 
+    MYSQL_PASS = sae.const.MYSQL_PASS 
+    MYSQL_HOST_M = sae.const.MYSQL_HOST 
+    MYSQL_HOST_S = sae.const.MYSQL_HOST_S 
+    MYSQL_PORT = sae.const.MYSQL_PORT
+		
+DEBUG = True#False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -13,16 +35,16 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'app_wboard',                      # Or path to database file if using sqlite3.
+        'NAME': MYSQL_DB,                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'USER': MYSQL_USER,
+        'PASSWORD': MYSQL_PASS,
+        'HOST': MYSQL_HOST_M,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': MYSQL_PORT,                      # Set to empty string for default.
     }
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -99,7 +121,6 @@ MIDDLEWARE_CLASSES = (
 #    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-		'common.middlewares.RedirectMiddleware',
 		'common.middlewares.AjaxMiddleware',
 		'django.middleware.locale.LocaleMiddleware',
 )
@@ -137,6 +158,11 @@ INSTALLED_APPS = (
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+	'django.contrib.auth.context_processors.auth',
+	'common.context_processors.channel_url',
+)
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -166,7 +192,14 @@ LOGGING = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 SAE_STORAGE_DOMAIN_NAME = 'wboardstorage'
-JSON_DATETIME_FORMAT = '%m-%d %H:%M' #2014-1-25 13:24:35
+JSON_DATETIME_FORMAT = '%m-%d %H:%M' #01-25 13:24
 CHANNEL_NAME_SPLITTER = '_'

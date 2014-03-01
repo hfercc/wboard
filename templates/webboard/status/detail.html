@@ -1,14 +1,24 @@
 {% extends "base.html" %}
+{% block title %}
+公告 - {{object.title}}
+{% endblock %}
+{% block extra_css %}body {max-height:600px;
+background:url('/static/img/bg.jpg');
+                             filter:alpha(opacity=5);
+                             Opacity:5;
+                             -moz-opacity:5;
+                             background-repeat:no-repeat;
+                             background-attachment: scroll;
+            background-size:cover;}
+{% endblock %}
 {% block main_content %}
-
-{% include "webboard/status/add.html" %}
-
-<div class="wrapper col-md-12">
+<div class="row">
+<div class="wrapper col-md-12" id="webboardContainer">
 	<h2 class="text-center page-header">{{object.title}}</h2>
 	<h6 class="well well-sm">
-		<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<button data-id="{{object.author.id}}" class=" btn-xs btn btn-link user-name"><small>{{object.author.profile.nick_name}}</small></button>&nbsp;&nbsp;
-		<span class="glyphicon glyphicon-time"></span><small>&nbsp;&nbsp;{{object.created_time|date:"m-d H:i"}}</small>&nbsp;&nbsp;
-        {% if perms.status.delete_modify %}
+		<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<button data-id="{{object.author.id}}" class=" btn-xs btn btn-link user-name">{{object.author.profile.nick_name}}</button>&nbsp;&nbsp;
+		<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{object.created_time|date:"m-d H:i"}}&nbsp;&nbsp;
+        {% if perms.webboard.delete_modify %}
         <button onclick="showAddForm('modify');" class="btn btn-link btn-sm">修改</button>
         {% endif %}
         {% if not object.has_verified %}
@@ -25,11 +35,12 @@
         {% endif %}
 	</h6>
 	<div class="content-main">
-		<p id="mainText">{{object.body_text}}</p>
+        <p id="mainText" style="line-height:25px;text-indent:2em;">{{object.body_text}}</p>
 	</div>
 </div>
-
-<div class="col-md-12">
+</div>
+<div class="row">
+<div class="col-md-12" id="commentContainer">
     <div class="page-header">
     	<h2>评论</h2>
     </div>
@@ -80,5 +91,6 @@
 			});
 		});
 	</script>
+</div>
 </div>
 {% endblock %}

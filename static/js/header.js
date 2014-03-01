@@ -1,18 +1,23 @@
 function toggleInfo() {
 	if (hasLogined)
 	{
-		clearForm("#formLogin");
+		/*clearForm("#formLogin");
 		$("#userName").text(username);
 		$("#formLogin").hide();
 		$("#userInfo").show();
-		$("#psw").attr("placeholder", '密码');
+		$("#psw").attr("placeholder", '密码');*/
+		$("#loginNav").hide();
+		$("userInfo").show();
 	}
 	else
 	{
-		$("#formLogin").show();
+		/*$("#formLogin").show();
+		$("#userInfo").hide();*/
+		$("#loginNav").show();
 		$("#userInfo").hide();
 	}
 }
+(function (){
 function login(){
 	api.normal("accountsLogin", function (data){
 										    if (data.hasOwnProperty('status'))
@@ -42,3 +47,4 @@ function logout(){
 											}
 										  });
 }
+})();

@@ -1,14 +1,30 @@
-<div class="panel-group" id="userSidebar">
+{% include "pm/detail.html" %}
+{% if perms.webboard.post %}
+	{% include "webboard/status/add.html" %}
+{% endif %}
+<div class="panel-group" id="userSidebar" style="margin-top:20px;">
 	<div class="panel panel-default">
 		<div class="panel-heading">
+        	<span id="notifyBadge" class="badge pull-right"></span>
 			<h4 class="panel-title">
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarNotify">站内通知</a>
 			</h4>
 		</div>
 		<div id="sidebarNotify" class="panel-collapse collapse">
-			<div id="notifyBody" class="panel-body" page="" hasnext="" hasprevious="">
-				<button id="notifyPrevious" class="btn btn-link btn-xs pull-right">上一页</button>
-				<button id="notifyNext" class="btn btn-link btn-xs pull-right">下一页</button>
+			<div id="notifyBody" data-api="notifyList" class="panel-body" data-kind="unread" page="" hasnext="" hasprevious="">
+            	<div class="btn-group pull-left inline" data-toggle="buttons">
+                	<label class="btn btn-primary btn-xs unread">
+                    	<input type="radio" name="options" /> 未读                     
+                    </label>
+                    <label class="btn btn-primary btn-xs all">
+                    	<input type="radio" name="options" /> 全部
+                    </label>
+                </div>
+				<div class="btn-group pull-right">
+					<!--<button id="notifyRefresh" class="refresh btn btn-link btn-xs">刷新</button>-->
+					<button id="notifyPrevious" class="btn btn-link btn-xs hidden">上一页</button>
+					<button id="notifyNext" class="btn btn-link btn-xs hidden">下一页</button>
+				</div>
 			</div>
 			<ul id="notifyList" class="list-group">
 				
@@ -18,13 +34,25 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
+        	<span id="emailBadge" class="badge pull-right"></span>            
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarEmail">站内邮件</a>
 			</h4>
 		</div>
 		<div id="sidebarEmail" class="panel-collapse collapse">
-			<div id="emailBody" class="panel-body" page="" hasnext="" hasprevious="">
-				<button id="emailPrevious" class="btn btn-link btn-xs pull-right">上一页</button>
-				<button id="emailNext" class="btn btn-link btn-xs pull-right">下一页</button>
+			<div id="emailBody" data-api="pmList" class="panel-body" data-kind="unread" page="" hasnext="" hasprevious="">
+            	<div class="btn-group pull-left inline" data-toggle="buttons">
+                	<label class="btn btn-primary btn-xs unread">
+                    	<input type="radio" name="options" /> 未读
+                    </label>                        
+                    <label class="btn btn-primary btn-xs all">
+                    	<input type="radio" name="options" /> 全部
+                    </label>
+                </div>
+				<div class="pull-right btn-group">
+					<!--<button id="emailRefresh" class="refresh btn btn-link btn-xs">刷新</button>-->
+					<button id="emailPrevious" class="btn btn-link btn-xs hidden">上一页</button>
+					<button id="emailNext" class="btn btn-link btn-xs hidden">下一页</button>
+				</div>
 			</div>
 			<ul id="emailList" class="list-group">
 				
@@ -41,79 +69,112 @@
 		</div>
 		<div id="collapseThree" class="panel-collapse collapse">
 			<div class="panel-body">
-						{% if perms.status.post %}
-							<a href="javascript:void(0);">发布公告</a>
-						{% endif %}
+				{% if perms.webboard.post %}
+					<a href="javascript:showAddForm('add');">发布公告</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
 	
 	<script type="text/javascript">
-	function updateList(kind, url, page) {
-		if (!page) page=1;
-		var data = api.page(url, {kind:'all', limit:5}, page);
-		var body = $("#"+kind+"Body");
-		var next = $("#"+kind+"Next");
-		if ('status' in data)
-		{
-			var hasNext = data['has_next'];
-			if (hasNext)
+	function updateList(body) {
+		var page = body.attr("page");
+		!page?page=1:1;
+		var body = $(body), body_id = body.attr("id"), body_sel = "#"+body_id, kind = body_id.slice(0,body_id.indexOf("Body"));
+		var k = body.attr("data-kind");
+		var data = api.page(body.attr("data-api"), function (data) {
+			var next = $(body_sel+" [id$=Next]");
+			if ('status' in data)
 			{
-				body.attr('hasnext', 'true');
-				next.removeClass('disabled');
+				var hasNext = data['has_next'];
+				if (hasNext)
+				{
+					body.attr('hasnext', 'true');
+					next.removeClass('hidden');
+				}
+				else
+				{
+					body.attr('hasnext', '');
+					next.addClass('hidden');
+				}
+				var hasPrevious = data['has_previous'];
+				var previous = $(body_sel+" [id$=Previous]")
+				if (hasPrevious)
+				{
+					body.attr('hasprevious', 'true');
+					previous.removeClass('hidden');
+				}
+				else
+				{
+					body.attr('hasprevious', '');
+					previous.addClass('hidden');
+				}				
+				var list = body.parent().children("[id$=List]");
+				list.empty();
+				window[kind+'Objects'] = data.objects;
+				for (var i=0;i<data.objects.length;i++)
+				{
+					var obj=data.objects[i];
+					var muted=obj.has_read?'':'text-info';
+					var body_text = kind=='notify'?obj.message:('<b>'+obj.sender.nick_name+'</b>：'+obj.body_text.slice(0, 20)+'...');
+					var url = kind=='notify'?obj.url:"javascript:showEmailDetail(JSON.stringify("+kind+"Objects["+i+"]));";
+					list.append('<li class="list-group-item"><h6 class="list-group-item-heading '+muted+'"><em>'+obj.created_time+'</em></h6><a index="'+i+'" href="'+url+'"><small class="list-group-item-text">'+body_text+'</small></a></li>');
+				}
+				body.attr('page', data.number);
 			}
-			else
-			{
-				body.attr('hasnext', '');
-				next.addClass('disabled');
-			}
-			var hasPrevious = data['has_previous'];
-			var previous = $("#"+kind+"Previous")
-			if (hasPrevious)
-			{
-				body.attr('hasprevious', 'true');
-				previous.removeClass('disabled');
-			}
-			else
-			{
-				body.attr('hasprevious', '');
-				previous.addClass('disabled');
-			}				
-			var list = $("#"+kind+"List");
-			list.empty();
-			for (var i=0;i<data.objects.length;i++)
-			{
-				var obj=data.objects[i];
-				var muted=obj.has_read?'':'muted';
-				list.append('<li class="list-group-item '+muted+'"><h6 class="list-group-item-heading"><em>'+obj.created_time+'</em></h6><a href="'+obj.url+'"><small class="list-group-item-text">'+obj.message+'</small></a></li>');
-			}
-			body.attr('page', data.number);
-		}
+		}, {kind:k, limit:5}, page);
 	}
 	$(document).ready(function(){
-		$("#sidebarNotify").on('shown.bs.collapse', function () {
-			var body = $("#notifyBody");
-			if (body.attr("page")) {return}
-			updateList('notify', 'notifyList');
+		$("[id^=sidebar]").each(function(){
+			$(this).on('shown.bs.collapse', function () {
+				var body = $($(this).children("[id$=Body]")[0]);
+				if (body.attr("page")) {return}
+				updateList(body);
+			});
 		});
-		$("#notifyNext").click(function () {
-			updateList('notify', 'notifyList',parseInt($("#notifyBody").attr("page"))+1);
+		$("[id$=Refresh]").each(function(){
+			$(this).click(function () {
+			var body = $(this).parent().parent();
+			updateList(body);
+									});
 		});
-		$("#notifyPrevious").click(function () {
-			updateList('notify', 'notifyList',parseInt($("#notifyBody").attr("page"))-1);
+		$("[id$=Next]").each(function(){
+			$(this).click(function () {
+			var body = $(this).parent().parent();
+			body.attr("page",parseInt(body.attr("page"))+1);
+			updateList(body);
+									});
 		});
-		
-		$("#sidebarEmail").on('shown.bs.collapse', function () {
-			var body = $("#emailBody");
-			if (body.attr("page")) {return}
-			updateList('email', 'pmList');
+		$("[id$=Previous]").each(function(){
+			$(this).click(function () {
+			var body = $(this).parent().parent();
+			body.attr("page",parseInt(body.attr("page"))-1);
+			updateList(body);
+									});
 		});
-		$("#emailNext").click(function () {
-			updateList('email', 'pmList',parseInt($("#emailBody").attr("page"))+1);
-		});
-		$("#emailPrevious").click(function () {
-			updateList('email', 'pmList',parseInt($("#emailBody").attr("page"))-1);
-		});
+		$(".unread").each(
+			function(){
+				$(this).click().click(function(){
+									   $(this).parent().parent().attr("data-kind", "unread");
+									   updateList($(this).parent().parent());
+									   });
+			});
+		$(".all").each(
+			function(){
+				$(this).click(function(){
+									   $(this).parent().parent().attr("data-kind", "all");
+									   updateList($(this).parent().parent());
+									   });
+			});
 	});
+channelMessage = function (data) {
+		$(".badge").each(function(){$(this).text("");});
+		if (data.n>0) {
+			$("#notifyBadge").text(data.n);
+		}
+		if (data.p>0) {
+			$("#emailBadge").text(data.p);
+		}
+}
 	</script>
 </div>

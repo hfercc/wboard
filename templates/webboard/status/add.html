@@ -3,7 +3,6 @@
     	<div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <!--<h4 class="modal-title" id="addDislogTitle">添加/修改公告</h4>-->
                 <ul class="nav nav-pills">
                     <li class="active"><a href="#tabWrite" data-toggle="pill">撰写</a></li>
                     <li><a href="#tabPreview" id="navPreview" data-toggle="pill">预览</a></li>
@@ -12,7 +11,7 @@
             <div class="modal-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabWrite">
-                        <form role="form" class="form-horizontal" id="addForm" data-action="add" data-id="{{object.id}}">
+                        <form role="form" class="form-horizontal" style="background-color:white;" id="addForm" data-action="add" data-id="{{object.id}}">
                             <div class="form-group" >
                                 <div class="col-sm-12">
                                     <input type="text" name="title" id="addFormTitle" placeholder="标题" class="form-control" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="标题不为空！" data-placement="left" value="{{object.title}}">
@@ -20,22 +19,26 @@
                             </div>
                             <div class="form-group" >
                                 <div class="col-sm-12">
-                                <textarea class="form-control" placeholder="正文" name="body_text" id="addFormBodyText" rows="10" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="正文不为空！" data-placement="left">{{object.body_text}}</textarea>
+                                <textarea class="form-control" placeholder="正文" name="body_text" id="addFormBodyTextmessage" rows="10" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="正文不为空！" data-placement="left">{{object.body_text}}</textarea>
                                 </div>
                             </div>
                             <input type="hidden" name="status_id" value="{{object.id}}" />
                         </form>
                     </div>
                     <div class="tab-pane fade" id="tabPreview">
-                        <div class="well" id="divPreview">
+                        <div class="well" id="divPreview" style="text-indent:2em;text-height:25px;">
                             
                         </div>
                     </div>
                 </div>
-                <div class="btn-group"> 
-                    <button id="addFormUpload" class="btn btn-sm btn-default" data-toggle="popover" data-html="true" data-content='{% include "file-upload.html" %}' data-container="#addForm">
+                <div class="btn-group" id="addFormMenu"> 
+                    <button id="addFormPicture" class="btn btn-sm btn-default">
                         <span class="glyphicon glyphicon-picture"></span>
                     </button>
+                    <button id="addFormFile" class="btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </button>
+                    <span id="addFormUpload">{% include "file-upload.html" %}</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -47,11 +50,84 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/static/js/addDialog.js"></script>
-<script>
-	$(document).ready(function(){
-		$("#navPreview").on("show.bs.tab", function(e){
-													$("#divPreview").html(processBodyText($("#addFormBodyText").val()));
-													});
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#navPreview").on("show.bs.tab", function(e){
+												$("#divPreview").html(processBodyText($("#addFormBodyTextmessage").val()));
+												});
+});
+(function(){
+function verifyAddForm() {
+	if (!$("#addFormTitle").val()) {
+		$("#addFormTitle").popover('show');
+		return false;
+	}
+	if (!$("#addFormBodyTextmessage").val()) {
+		$("#addFormBodyTextmessage").popover('show');
+		return false;
+	}	
+	return true;
+}
+$(document).ready(function () {
+    title = $("#addFormTitle").val();
+    body_text = $("#addFormBodyTextmessage").val();
+	$("[data-toggle='popover']").popover();
+	$("#addFormSubmit").click(function() {
+		if (!verifyAddForm()) return;
+		var form = $("#addForm"), statusID;
+		if (form.attr("data-action")=="add"){
+			api.normal("webboardAdd", function(data){
+											   $("#addDialog").modal("hide");
+											   if ('status' in data) {
+												   statusID = data.object.id;
+												   jump('/webboard/'+statusID);
+											   }
+										}, form.serialize());
+		} else {
+			api.has_id("webboardModify", function(data){
+											   $("#addDialog").modal("hide");
+											   if ('status' in data) {
+												   statusID = data.object.id;
+												   jump('/webboard/'+statusID);
+											   }
+										}, form.attr("data-id"), form.serialize());	
+		}	
 	});
+	$("#addForm textarea,input").focus(function(){$(this).popover('hide');});
+    $("#addFormUpload").hide();
+    $("#addFormMenu button[id^=addForm]").each(function(){
+        var self = $(this);
+        $(this).click(function() {
+            $("#addFormUpload").toggle();
+            if (window.uploading) return;
+            var id=self.attr("id"); 
+            if (id.indexOf("Picture")>=0) {
+                window.addFormType = 'picture'
+            } else {
+                window.addFormType = 'file'
+            }
+        });
+    });
+});
+})();
+function showAddForm(action) {
+	$("#addForm").attr("data-action", action);
+	if (action == 'add') {
+		$("#addFormTitle").val("");
+        $("#addFormBodyTextmessage").val("");
+   		$("#addDialog").modal('show');
+        return;
+	}
+	$("#addFormTitle").val(title);
+    $("#addFormBodyTextmessage").val(body_text);
+    $("#addDialog").modal('show');
+}
+function uploadCallback(obj) {
+    //$("#addFormUpload").popover("hide");
+    if (window.addFormType == 'picture') {
+		$("#addFormBodyTextmessage").val($("#addFormBodyTextmessage").val()+'[img='+obj.url+']');
+    } else {
+        $("#addFormBodyTextmessage").val($("#addFormBodyTextmessage").val()+'[file='+obj.url+'|'+obj.file_name.replace(/[\[\]]/g, "")+']');
+    }
+}
 </script>

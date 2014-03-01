@@ -4,6 +4,8 @@ urlpatterns = patterns('private_message.views',
 	(r'list/$',   'private_message_list'),
 	(r'delete/(\d+)/$', 'delete'),
 	(r'(\d+)/$',  'detail'),
+	(r'chat/$', 'chat'),
+	(r'history/$', 'history'),
 ) + patterns('common.utils',
 	(r'write/$',        'views_splitter', {
 		'GET':  'private_message.views.write_get',

@@ -1,0 +1,48 @@
+<div class="modal fade" id="emailDetailDialog" tabindex="-1" role="dialog" aria-labelledby="emailDetailDialogTitle" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="emailDetailDialogTitle">邮件</h4>
+			</div>
+            <div class="modal-body">
+                <div class="content-main">
+                	<blockquote>
+                    <p id="emailDetailBodyText"></p>
+                    </blockquote>
+                </div>
+                <h4 id="emailAttachmentsTitle">附件：</h4>
+                <ol id="attachmentsList"></ol>
+            </div>
+            <div class="modal-footer">
+                <div class="button-group pull-right">
+                    <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <a href="/pm/chat/" target="_blank" class="btn btn-primary">回复</a>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<script type="text/javascript">
+(function () {
+$(document).ready(function () {
+	
+});
+		   })();
+function showEmailDetail(obj) {
+	obj = eval('('+obj+')');
+	$("#emailDetailDialogTitle").html("<small>来自：</small>"+obj.sender.nick_name+" <small>的邮件</small>");
+	$("#emailDetailBodyText").html(processBodyText(obj.body_text));
+	$("#emailDetailDialog").modal("show");
+	var alist = $("#attachmentsList");
+	alist.html("");
+	if (obj.attachments.length) {
+		$("#emailAttachmentsTitle").show();
+	} else {
+		$("#emailAttachmentsTitle").hide();
+	}
+	$.each($.each(obj.attachments, function () {
+		alist.append('<li><a href="'+this.url+'">'+this.file_name+'</a></li>');
+	}));
+}
+</script>

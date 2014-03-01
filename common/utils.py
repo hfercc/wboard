@@ -1,42 +1,16 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.encoding import iri_to_uri
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from datetime import datetime
 from wboard import settings
 from django.http import Http404
-from notification import models
-import kv
 import exceptions
 import sys
-
-class HttpResponseReload(HttpResponse):
-    """
-    Reload page and stay on the same page from where request was made.
-
-    example:
-
-    def simple_view(request):
-        if request.POST:
-            form = CommentForm(request.POST):
-            if form.is_valid():
-                form.save()
-                return HttpResponseReload(request)
-        else:
-            form = CommentForm()
-        return render_to_response('some_template.html', {'form': form})
-    """
-    status_code = 302
-
-    def __init__(self, request):
-        HttpResponse.__init__(self)
-        referer = request.META.get('HTTP_REFERER')
-        self['Location'] = iri_to_uri(referer or "/")
 
 #reflect
 
 def datetime_processor(obj):
 	if isinstance(obj, datetime):
-		print obj
 		return obj.strftime(settings.JSON_DATETIME_FORMAT)
 		
 def many_related_processor(obj):
@@ -134,7 +108,8 @@ def upload_file(request, field_name):
 	# url = client.put(settings.SAE_STORAGE_DOMAIN_NAME, obj)
 	# return (url, file.name)
 	import sae.storage
-	bucket = sae.storage.Bucket('t')
+	from wboard import settings
+	bucket = sae.storage.Bucket(settings.SAE_STORAGE_DOMAIN_NAME)
 	filename = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
 	file = request.FILES[field_name]
 	bucket.put_object(filename, file)
@@ -179,12 +154,6 @@ def verify_user(request, users):
 	if not filter(lambda user: request.user == user, users):
 		raise exceptions.AccessDenied
 		
-#Get unread
-def get_unread(user):
-	#p = len(PrivateMessage.objects.unread_messages(user))
-	n = reduce(lambda x,y:x+y, (len(c.objects.unread_notifications(user)) \
-		for c in (models.CommentNotification, models.PrivateMessageNotification, models.StatusNotification)))
-	return n
-	
-def send_unread(user):
-	kv.send_all(user.id, str(get_unread(user)))
+#db
+def mark_read(msg_list):
+	msg_list.update(has_read = True)

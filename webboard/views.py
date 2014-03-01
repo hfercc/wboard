@@ -4,7 +4,9 @@ from common.ajax_response import STATUS_SUCCESS
 from models import Status, Comment
 from django.http import HttpResponseRedirect
 from notification import send_notification, send_notification_to_admin
+from django.views.decorators.cache import cache_page
 
+#@cache_page(30)
 @common.login_required
 @common.ajax_by_method('webboard/status/list.html')
 def status_list(request):
@@ -15,6 +17,7 @@ def status_list(request):
 	print data['objects'].object_list
 	return data
 	
+#@cache_page(60)
 @common.login_required
 @common.ajax_by_method('webboard/status/detail.html')
 def detail(request, status_id):
@@ -59,12 +62,12 @@ def _add_or_modify(request, status_id = ''):
 		return get(request, status_id)
 		
 @common.login_required
-@common.permission_required('status.post')
+@common.permission_required('webboard.post')
 def add(request):
 	return _add_or_modify(request)
 	
 @common.login_required
-@common.permission_required('status.delete_modify')
+@common.permission_required('webboard.delete_modify')
 def modify(request, status_id):
 	return _add_or_modify(request, status_id)
 
@@ -81,7 +84,7 @@ def modify(request, status_id):
 	
 @common.method('POST')
 @common.login_required
-@common.permission_required('status.delete_modify')
+@common.permission_required('webboard.delete_modify')
 @common.ajax_request
 def delete(request, status_id):
 	status = utils.get_object_by_id(Status, status_id)
@@ -94,7 +97,7 @@ def delete(request, status_id):
 	return {}
 	
 @common.login_required
-@common.permission_required('status.verify')
+@common.permission_required('webboard.verify')
 @common.ajax_request
 def verify(request, status_id):
 	status = utils.get_object_by_id(Status, status_id)
@@ -129,7 +132,6 @@ def comment_list(request):
 @common.ajax_request
 def add_comment(request):
 	form = forms.CommentForm(request.POST)
-	print request.POST
 	if form.is_valid():
 		data = form.cleaned_data
 		comment = Comment(status = form.status,

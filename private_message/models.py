@@ -1,13 +1,14 @@
 # -*- coding: cp936 -*-
 from django.db import models
-from common import jsonobj
+from common import jsonobj, kv
+from wboard import settings
 from django.contrib.auth.models import User
 
 class Attachment(jsonobj.JsonObjectModel):
 	
 	url           = models.URLField()
 	file_name     = models.CharField(max_length = 255)
-	uploaded_time = models.DateTimeField()
+	uploaded_time = models.DateTimeField(auto_now_add = True)
 	
 	def __unicode__(self):
 		return u'URL为%s的附件 %s。' % (self.url, self.file_name)
@@ -25,13 +26,15 @@ class PrivateMessageManager(models.Manager):
 		return self.filter(sender = user.id)
 		
 	def filter_messages(self, user, kind = 'all'):
-		if kind == 'all':
+		if kind == '_all':
 			return list(user.private_message_sent.all()) + \
 				list(user.private_message_received.all())
 		elif kind == 'sent':
 			return user.private_message_sent.all()
-		elif kind == 'received':
+		elif kind in ('all', 'received'):
 			return user.private_message_received.all()
+		elif kind == 'unread':
+			return user.private_message_received.filter(has_read = False)
 		else:
 			return []
 
@@ -47,20 +50,17 @@ class PrivateMessage(jsonobj.JsonObjectModel):
 	objects      = PrivateMessageManager()
 	
 	json_extra   = ['attachments']
-	
-	def __unicode__(self):
-		return u'%s 给 %s 的私信。包含 %d 个附件。' % (
-				self.sender.profile.nick_name, 
-				self.receiver.profile.nick_name,
-				len(self.attachments.all())
-			)
+			
+	def save(self, *args, **kw_args):
+		super(PrivateMessage, self).save(*args, **kw_args)
+		kv.ChannelKV(self.receiver).send_unread()
 	
 	def mark_read(self, flag = True):
 		self.has_read = flag
 		self.save()
 
 	def delete(self):
-		self.notification.delete()
+		kv.ChannelKV(self.receiver).send_unread()
 		super(PrivateMessage, self).delete()
 		
 	def shorten(self):
@@ -68,6 +68,17 @@ class PrivateMessage(jsonobj.JsonObjectModel):
 			return self.body_text
 		else:
 			return u'%s...' % self.body_text[:10]
+			
+	def message(self, user):
+		result = {'message': self.body_text}
+		result['attachments'] = '|'.join(('*'.join((i.url,i.file_name)) for i in self.attachments.all()))
+		if user == self.sender:
+			result['to'] = self.receiver.id
+		else:
+			result['from'] = self.sender.id
+		result['id'] = self.id
+		result['created_time'] = self.created_time.strftime(settings.JSON_DATETIME_FORMAT)
+		return result
 			
 	class Meta(jsonobj.JsonObjectModel.Meta):
 		abstract = False

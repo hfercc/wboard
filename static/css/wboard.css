@@ -1,0 +1,13 @@
+body { padding-top:63px; }
+.navbar-transparent {
+  filter:Alpha(Opacity=75);
+  opacity:0.75;
+  -moz-opacity:0.75;
+  background-color:#201893;
+}
+.navbar-transparent a,p { color:#000000;}
+.tab-content {
+    background-color:#EEEEEE;
+}
+#webboardContainer {margin-top:20px;background-color:#EEEEEE;}
+#commentContainer {background-color:#EEEEEE;}

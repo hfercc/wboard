@@ -3,20 +3,27 @@ from common import exceptions, utils
 from django.http import Http404
 from common.ajax_response import STATUS_SUCCESS
 from  __init__ import get_class
+from django.views.decorators.cache import cache_page
 
 @common.login_required
+#@cache_page(20)
 @common.ajax_by_method('notification/list.html')
 def notifications_list(request):
 	kind = request.GET.get('kind','') or request.POST.get('kind','')
-	if not kind:
-		raise Http404
 	if kind == 'all':
-		objects = []
-		for i in ['status', 'comment', 'pm']:
-			objects+=get_class(i).objects.notifications(request.user)
+		args = {}
+	elif kind == 'unread':
+		args = {'has_read': False}
 	else:
-		notification_class = get_class(kind)
-		objects = notification_class.objects.notifications(request.user)
+		raise Http404
+	print args
+	objects = []
+	for i in ('status', 'comment'):
+		q = get_class(i).objects.notifications(request.user).filter(**args)
+		if kind == 'all':
+			utils.mark_read(q)
+			common.kv.ChannelKV(request.user).send_unread()
+		objects += q
 	notifications = utils.paginate_to_dict(
 			objects,
 			request

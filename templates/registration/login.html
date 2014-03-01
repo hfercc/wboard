@@ -1,11 +1,50 @@
 {%extends "base.html"%}
+{%block title%}登录 - 华附模联公告板{%endblock%}
 {% block sidebar %}{% endblock %}
+{% block extra_css %}body {max-height:600px;
+background:url('/static/img/bg.jpg');
+                             filter:alpha(opacity=5);
+                             Opacity:5;
+                             -moz-opacity:5;
+                             background-repeat:no-repeat;
+                             background-attachment: scroll;
+            background-size:cover;}
+{% endblock %}
 {% block main_content %}
-<form action="" method="POST">
-	{% csrf_token %}
-	<input placeholder="用户名" type="text" name="username"></input>
-	<input placeholder="密码" type="password" name="password"></input>
-	<input type="hidden" name="next" value="/"></input>
-	<input type="submit"></input>
+<div class="col-md-6 col-md-offset-1" style="padding-top:50px;">
+<form class="form-horizontal" role="form" id="formLogin">
+    <div class="form-group">
+        <input name="username" type="email" class="form-control" placeholder="用户名" required autofocus>
+    </div>
+    <div id="passwordGroup" class="form-group">
+        <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="loginSubmit">登录</button>
+    </div>
 </form>
+</div>
+<script type="text/javascript">
+(function(){
+function login() {
+	api.normal("accountsLogin", function(data) {
+		if ('status' in data)
+		{
+			jump("/");
+		} else {
+			$("#passwordGroup").addClass("has-error");
+			$("#password").val("").focus();
+		}
+	}, $("#formLogin").serialize());
+}
+$(document).ready(function() {
+	$("#loginSubmit").click(login);
+	$("#formLogin input").keypress(function(e) {
+											if (e.which==13||e.which==10) {
+												$("#loginSubmit").click();
+											}
+											});
+});
+})();
+</script>
 {% endblock %}

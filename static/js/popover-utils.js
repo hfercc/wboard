@@ -32,11 +32,16 @@ function initUserName() {
 					data = data.object;
 					str += '<h5><strong>'+data.nick_name+
 					'</strong>&nbsp;(<small>'+data.username+
-					'</small>)</h5>'+'<button onclick="clickMf(this)" data-id="'+data.id+'" class="btn btn-xs btn-'+(data.is_friend?'default">取消关注':'success">关注')+'</button>';
+					'</small>)</h5>';
+                    if (data.username == username) {
+                        str += '<p>自己</p>';
+                    } else {
+                    	str+='<button onclick="clickMf(this)" data-id="'+data.id+'" class="btn btn-xs btn-'+(data.is_friend?'default">取消关注':'success">关注')+'</button>'
+                    }
 				} else { str = '加载失败，请检查网络配置'; }
 				$("#"+id).html(str);
 			}, element.attr("data-id"));		
 		}).popover();
 	});
 }
-//$(document).ready(function(){initUserName()});
+$(document).ready(function(){initUserName()});
