@@ -1,8 +1,18 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+{% block main_content %}
+<a data-toggle="modal" data-target="#addDialog">Click ME</a>
+=======
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 <div class="modal fade" id="addDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog" >
     	<div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<<<<<<< HEAD
+                <!--<h4 class="modal-title" id="addDislogTitle">添加/修改公告</h4>-->
+=======
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
                 <ul class="nav nav-pills">
                     <li class="active"><a href="#tabWrite" data-toggle="pill">撰写</a></li>
                     <li><a href="#tabPreview" id="navPreview" data-toggle="pill">预览</a></li>
@@ -11,7 +21,11 @@
             <div class="modal-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabWrite">
+<<<<<<< HEAD
+                        <form role="form" class="form-horizontal" id="addForm" data-action="add" data-id="{{object.id}}">
+=======
                         <form role="form" class="form-horizontal" style="background-color:white;" id="addForm" data-action="add" data-id="{{object.id}}">
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
                             <div class="form-group" >
                                 <div class="col-sm-12">
                                     <input type="text" name="title" id="addFormTitle" placeholder="标题" class="form-control" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="标题不为空！" data-placement="left" value="{{object.title}}">
@@ -19,18 +33,32 @@
                             </div>
                             <div class="form-group" >
                                 <div class="col-sm-12">
+<<<<<<< HEAD
+                                <textarea class="form-control" placeholder="正文" name="body_text" id="addFormBodyText" rows="10" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="正文不为空！" data-placement="left">{{object.body_text}}</textarea>
+=======
                                 <textarea class="form-control" placeholder="正文" name="body_text" id="addFormBodyTextmessage" rows="10" data-toggle="popover" data-trigger="manual" data-container="#addForm" data-content="正文不为空！" data-placement="left">{{object.body_text}}</textarea>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
                                 </div>
                             </div>
                             <input type="hidden" name="status_id" value="{{object.id}}" />
                         </form>
                     </div>
                     <div class="tab-pane fade" id="tabPreview">
+<<<<<<< HEAD
+                        <div class="well" id="divPreview">
+=======
                         <div class="well" id="divPreview" style="text-indent:2em;text-height:25px;">
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
                             
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+                <div class="btn-group"> 
+                    <button id="addFormUpload" class="btn btn-sm btn-default" data-toggle="popover" data-html="true" data-content='{% include "file-upload.html" %}' data-container="#addForm">
+                        <span class="glyphicon glyphicon-picture"></span>
+                    </button>
+=======
                 <div class="btn-group" id="addFormMenu"> 
                     <button id="addFormPicture" class="btn btn-sm btn-default">
                         <span class="glyphicon glyphicon-picture"></span>
@@ -39,6 +67,7 @@
                         <span class="glyphicon glyphicon-file"></span>
                     </button>
                     <span id="addFormUpload">{% include "file-upload.html" %}</span>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
                 </div>
             </div>
             <div class="modal-footer">
@@ -50,6 +79,17 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+<script type="text/javascript" src="/static/js/addDialog.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#navPreview").on("show.bs.tab", function(e){
+													$("#divPreview").html(processBodyText($("#addFormBodyText").val()));
+													});
+	});
+</script>
+{% endblock %}
+=======
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#navPreview").on("show.bs.tab", function(e){
@@ -131,3 +171,4 @@ function uploadCallback(obj) {
     }
 }
 </script>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+<form id="uploadForm" role="form" class="form-inline" enctype="multipart/form-data">
+=======
 <form id="uploadForm" role="form" class="uploadForm form-inline" enctype="multipart/form-data">
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	<div class="form-group col-sm-9">
 		<input type="file" name="file" id="uploadFile" />
     </div>
@@ -8,21 +12,36 @@
 <script type="text/javascript" src="/static/js/ajaxfileupload.js"></script>
 <script>
 $(document).ready(function(){
+<<<<<<< HEAD
+	$("#uploadButton").click(
+		function() {
+				console.log($("#uploadForm"));
+=======
 	var form = $("#uploadForm");
     window.uploading = false;
 	form.find("#uploadButton").click(
 		function() {
             	window.uploading = true;
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 				$.ajaxFileUpload({
 					 type: "post",
 					 url: "/sae/upload/",
 					 secureuri: false,
+<<<<<<< HEAD
+					 fileElementId: "uploadFile",
+					/* dataType: "json",*/
+					 success: function(data, status) {
+						 var obj = eval("("+data.getElementsByTagName("pre")[0].innerHTML+")");
+						 alert(uploadCallback);
+						 uploadCallback(obj);
+=======
 					 fileElementId: form.find("input[type=file]").attr("id"),
 					/* dataType: "json",*/
 					 success: function(data, status) {
 						 var obj = eval("("+data.getElementsByTagName("pre")[0].innerHTML+")");
 						 uploadCallback(obj);
                          window.uploading = false;
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 						 }
 					// error: function(data, status, e) {console.log(e);}
 								 });

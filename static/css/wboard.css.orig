@@ -1,0 +1,48 @@
+<<<<<<< HEAD
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  height: 500px;
+  margin-bottom: 60px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 500px;
+  background-color: #777;
+}
+.carousel-inner > .item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+}
+body { padding-top:50px; }
+=======
+body { padding-top:63px; }
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
+.navbar-transparent {
+  filter:Alpha(Opacity=75);
+  opacity:0.75;
+  -moz-opacity:0.75;
+<<<<<<< HEAD
+  background-image: url("/static/img/bgnav.jpg");
+} 
+.navbar-transparent a,p { color:#000000;)
+=======
+  background-color:#201893;
+}
+.navbar-transparent a,p { color:#000000;}
+.tab-content {
+    background-color:#EEEEEE;
+}
+#webboardContainer {margin-top:20px;background-color:#EEEEEE;}
+#commentContainer {background-color:#EEEEEE;}
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

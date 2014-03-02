@@ -10,3 +10,5 @@ import sae
 #application = sae.create_wsgi_app(django.core.handlers.wsgi.WSGIHandler())
 from wboard import wsgi
 application = sae.create_wsgi_app(wsgi.application)
+import pylibmc
+sys.modules['memcache'] = pylibmc

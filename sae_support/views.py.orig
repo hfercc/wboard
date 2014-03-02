@@ -8,6 +8,18 @@ from wboard.settings import CHANNEL_NAME_SPLITTER
 @common.method('POST')
 @common.ajax_request
 def upload(request):
+<<<<<<< HEAD
+	try:
+		url, file_name = utils.upload_file(request, 'file')
+		data= {'status': 'success',
+						'url':    url,
+						'file_name': file_name}
+		print data
+		return data
+	except Exception, e:
+		print e
+		raise common.exceptions.FileUploadFailed
+=======
 #try:
 	url, file_name = utils.upload_file(request, 'file')
 	data= {'status': 'success',
@@ -18,6 +30,7 @@ def upload(request):
 #except Exception, e:
 	#print e
 	raise common.exceptions.FileUploadFailed
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 		
 @common.login_required
 @common.method('POST')

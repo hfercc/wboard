@@ -1,7 +1,7 @@
 # -*- coding: cp936 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from common import jsonobj
+from common import jsonobj, kv
 from private_message.models import PrivateMessage
 from webboard.models import Status, Comment
 
@@ -29,6 +29,14 @@ class Notification(jsonobj.JsonObjectModel):   #abstract class of notification
 	def url(self):                    #abstract
 		pass
 		
+	def save(self, *args, **kw_args):
+		super(Notification, self).save(*args, **kw_args)
+		kv.ChannelKV(self.receiver).send_unread()	
+		
+	def delete(self, *args, **kw_args):
+		super(Notification, self).delete(*args, **kw_args)
+		kv.ChannelKV(self.receiver).send_unread()
+		
 	def mark_read(self, flag = True):        #abstract
 		self.has_read = flag
 		self.save()
@@ -44,29 +52,29 @@ class Notification(jsonobj.JsonObjectModel):   #abstract class of notification
 		ordering = ['-created_time']
 		verbose_name = u'通知'
 		
-class PrivateMessageNotification(Notification):
+# class PrivateMessageNotification(Notification):
 
-	private_message = models.OneToOneField(PrivateMessage, related_name = 'notification')
+	# private_message = models.OneToOneField(PrivateMessage, related_name = 'notification')
 	
-	def kind(self):
-		return 'pm'
+	# def kind(self):
+		# return 'pm'
 		
-	def __unicode__(self):
-		return u'%s 的私信通知。' % self.receiver.profile.nick_name
+	# def __unicode__(self):
+		# return u'%s 的私信通知。' % self.receiver.profile.nick_name
 		
-	def url(self):
-		return '/pm/%d/' % self.private_message.id
+	# def url(self):
+		# return '/pm/%d/' % self.private_message.id
 		
-	def message(self):
-		return u'%s 给你发了一条私信：%s' % (
-				self.private_message.sender.profile.nick_name,
-				self.private_message.shorten
-			)
+	# def message(self):
+		# return u'%s 给你发了一条私信：%s' % (
+				# self.private_message.sender.profile.nick_name,
+				# self.private_message.shorten
+			# )
 			
-	class Meta(jsonobj.JsonObjectModel.Meta):
-		abstract = False
-		ordering = ['created_time']
-		verbose_name = u'私信通知'
+	# class Meta(jsonobj.JsonObjectModel.Meta):
+		# abstract = False
+		# ordering = ['created_time']
+		# verbose_name = u'私信通知'
 	
 class StatusNotification(Notification):
 	
@@ -137,3 +145,9 @@ class CommentNotification(Notification):
 		abstract = False
 		ordering = ['-created_time']
 		verbose_name = u'评论通知'
+		
+def get_unread_notifications(user):
+	res = []
+	for c in (PrivateMessageNotification, StatusNotification, CommentNotification):
+		res += c.objects.unread_notifications(user)
+	return res

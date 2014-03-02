@@ -1,5 +1,34 @@
 <div class="navbar navbar-transparent navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="container">
+<<<<<<< HEAD
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">触发菜单</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav" id="top">
+				<li><a href="/">主页</a></li>
+			</ul>
+			
+			<form id="formLogin" class="navbar-form navbar-right" role="form">
+				<div class="form-group">
+					<input type="text" placeholder="用户名" name="username" class="form-control">
+				</div>
+				<div class="form-group">
+					<input id="psw" type="password" placeholder="密码" name="password" class="form-control">
+				</div>
+				<button id="formLoginSubmit" type="button" class="btn btn-success">登录</button>
+			</form>
+			<ul class="nav navbar-nav"  id="top1">
+			   <li><a href="/webboard/list/">公告</a></li>
+			   <li><a href=" ">聊天</a></li>	
+			</ul>
+			<ul class="nav navbar-nav pull-right" id="userInfo">
+=======
 		<a href="/" class="navbar-brand"><img style="height:25px;width:25px;" src="/static/img/logo.png" /></a>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -13,8 +42,9 @@
                 </li>
             </ul>
 			<ul class="nav navbar-nav navbar-right" id="userInfo">
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 				<li>
-					<a id="userName" href="#">{{user.profile.nick_name}}</a>
+					<p class="navbar-text" id="userName">{{user.username}}</a>
 				</li>
 				<li>
 					<a href="/accounts/logout/" id="btnLogout">退出</a>
@@ -22,7 +52,6 @@
 			</ul>
 			<script type="text/javascript" src="/static/js/header.js"></script>
 			<script type="text/javascript">
-
 			toggleInfo();
 			/*$(document).ready(function () {
 				$("#formLogin input").keypress(function(e){

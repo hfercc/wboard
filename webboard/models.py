@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from common import jsonobj
+from datetime import datetime
 
 class StatusManager(models.Manager):
 	
@@ -93,4 +94,4 @@ class Comment(jsonobj.JsonObjectModel):
 			
 	class Meta:
 		verbose_name = u'ÆÀÂÛ'
-		ordering = ['created_time']
+		ordering = ['-created_time']

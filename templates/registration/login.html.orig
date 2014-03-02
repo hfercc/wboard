@@ -1,4 +1,13 @@
 {%extends "base.html"%}
+<<<<<<< HEAD
+<form class="form-signin" role="form">
+  {% csrf token %}
+	<h2 class="form-signin-heading">请登录</h2>
+   <input type="email" class="form-control" placeholder="用户名" required autofocus>
+   <input type="password" class="form-control" placeholder="密码" required>
+   <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+</form>
+=======
 {%block title%}登录 - 华附模联公告板{%endblock%}
 {% block sidebar %}{% endblock %}
 {% block extra_css %}body {max-height:600px;
@@ -48,3 +57,4 @@ $(document).ready(function() {
 })();
 </script>
 {% endblock %}
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

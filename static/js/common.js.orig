@@ -8,6 +8,16 @@ $(':input', id)
 function jump(URL) {
 	location.href = URL;	
 }
+<<<<<<< HEAD
+function uploadFile(formID, func) {
+
+}
+function processBodyText(text) {
+	return text.replace(/[<>]/g, function(word){return word=='<'?'&lt;':'&gt;';})
+	.replace(/[\n\r]/g, '<br/>')
+	.replace(/\[img\=[^\]]+\]/g, function(str) {return '<img src="'+str.slice(5,-1)+'" />';});
+}
+=======
 function rand() {
     return 1;
 }
@@ -66,3 +76,4 @@ Array.prototype.remove=function(dx)
     } 
     this.length-=1 
 } 
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

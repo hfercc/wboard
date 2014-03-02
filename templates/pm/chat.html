@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}
+聊天 - 华附模联公告板
+{% endblock %}
+{% block extra_css %}
+.autoheight {
+	overflow-y: auto;
+}
+body {max-height:600px;
+background:url('/static/img/bg.jpg');
+                             filter:alpha(opacity=5);
+                             Opacity:5;
+                             -moz-opacity:5;
+                             background-repeat:no-repeat;
+                             background-attachment: scroll;
+            background-size:cover;}
+{% endblock %}
+{% block sidebar %}
+<div id="" class="">
+    <h4 class="text-center">好友列表&nbsp;<button id="friendsListBadge" class="btn btn-xs btn-link"><span class="badge"></span></button></h4>
+<div class="autoheight">
+<ul id="friendsList" class="list-group">
+
+</ul>
+</div>
+</div>
+{% endblock %}
+{% block main_content %}
+<ul id="tabHeader" class="nav nav-pills">
+	
+</ul>
+<div style="height:10px;"></div>
+<div id="tabContent" class="tab-content">
+
+</div>
+<div class="modal fade" id="fileUploadDialog" tabindex="-1" role="dialog" aria-labelledby="emailDetailDialogTitle" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<ul id="uploadFormNav" class="nav nav-pills">
+                	<li>
+                    	<a id="tabUpload" href="#tabLocalUpload" data-toggle="pill">本地上传</a>
+                    </li>
+                    <li class="active">
+                    	<a data-toggle="pill" href="#tabLink">站外链接</a>
+                    </li>
+                </ul>
+			</div>
+            <div class="modal-body">
+            	<div class="tab-content">
+                	<div id="tabLocalUpload" class="tab-pane fade">
+                    
+                			<input type="file" name="file" id="uploadFile"  />
+               
+                    </div>
+                    <div id="tabLink" class="tab-pane active fade">
+                    	<div class="form-group">
+                    		<label for="inputLink" class="form-label">链接地址</label>
+                        	<input type="text" class="form-control" id="inputLink" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="button-group pull-right">
+                    <button class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id="uploadButton" data-loading-text="上传中…" class="disabled btn btn-primary btn-sm">上传</button>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<script type="text/javascript" src="/static/js/chat.js"></script>
+<script type="text/javascript" src="/static/js/ajaxfileupload.js"></script>
+<script>
+function resize() {
+	$(".autoheight").height($(window).height()-150);
+	$(".msgDiv").each(
+		function () {
+			$(this).height($(this).parent().height()-175);	
+		});
+}
+function adjustUploadButton(b) {
+	b?$("#uploadButton").removeClass("disabled"):$("#uploadButton").addClass("disabled");
+}
+$(document).ready(function () {
+    window.focused = true;
+	window.onbeforeunload = function() {
+		return "是否离开当前网页？";
+	}
+    window.onfocus = function () {
+        if (flashId != 0) {
+            clearInterval(flashId);
+            flashId = 0;
+            window.focused = true;
+        }
+    }
+    window.onblur = function () {
+        window.focused = false;
+    }
+	resize();
+	$(window).resize(function() {
+			resize();
+	});
+	$("#tabUpload").tab("show");
+	$("#uploadFile").change(
+		function () {
+			if ($(this).val()) {
+				$("#uploadButton").removeClass("disabled");
+			} else {
+				$("#uploadButton").addClass("disabled");
+			}
+	});
+	$("#inputLink").keyup(function(e) {
+		adjustUploadButton($(this).val());
+	});
+	$("#uploadFormNav li a").on("shown.bs.tab",
+		function (e) {
+			var target = $(e.target).attr("id");
+			if (target == "#tabLocalUpload") {
+				adjustUploadButton($("#uploadFile").val());
+			} else {
+				adjustUploadButton($("#inputLink").val());
+			}
+		});
+	$("#uploadButton").click(
+		function() {
+				if ($("#tabLocalUpload").hasClass("active")) {
+					$(this).button("loading");
+					$("#fileUploadDialog").modal("hide");
+					var self = $(this);
+					$.ajaxFileUpload({
+						 type: "post",
+						 url: "/sae/upload/",
+						 secureuri: false,
+						 fileElementId: "uploadFile",
+						/* dataType: "json",*/
+						 success: function(data, status) {
+							 var obj = eval("("+data.getElementsByTagName("pre")[0].innerHTML+")");
+							 self.button("reset");
+							 if (uploadCallback) uploadCallback(obj);
+							 }
+						// error: function(data, status, e) {console.log(e);}
+					});
+				} else {
+					if (uploadCallback) uploadCallback({url:$("#inputLink").val(), file_name:"未知文件"});	
+				}
+		});
+});
+</script>
+{% endblock %}

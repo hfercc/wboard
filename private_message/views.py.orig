@@ -38,11 +38,16 @@ def chat(request):
 @common.login_required
 @common.ajax_by_method('pm/list.html')
 def private_message_list(request):
+<<<<<<< HEAD
+	kind = request.GET.get('kind', 'all') or request.POST.get('kind', 'all')
+	objects = PrivateMessage.objects.filter_messages(request.user, kind)
+=======
 	kind = request.GET.get('kind', '') or request.POST.get('kind', '')
 	objects = PrivateMessage.objects.filter_messages(request.user, kind)
 	if kind == 'all':
 		utils.mark_read(objects)
 		common.kv.ChannelKV(request.user).send_unread()
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	user_id = request.GET.get('user_id', '') or request.POST.get('user_id', '')
 	if user_id:
 		objects = objects.filter(sender = user_id) + objects.filter(receiver = user_id)

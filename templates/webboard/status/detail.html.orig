@@ -1,5 +1,18 @@
 {% extends "base.html" %}
+{% block title %}
+公告 - {{object.title}}
+{% endblock %}
+{% block extra_css %}body {max-height:600px;
+background:url('/static/img/bg.jpg');
+                             filter:alpha(opacity=5);
+                             Opacity:5;
+                             -moz-opacity:5;
+                             background-repeat:no-repeat;
+                             background-attachment: scroll;
+            background-size:cover;}
+{% endblock %}
 {% block main_content %}
+<<<<<<< HEAD
 
 {% include "webboard/status/add.html" %}
 
@@ -9,6 +22,15 @@
 		<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<button data-id="{{object.author.id}}" class=" btn-xs btn btn-link user-name"><small>{{object.author.profile.nick_name}}</small></button>&nbsp;&nbsp;
 		<span class="glyphicon glyphicon-time"></span><small>&nbsp;&nbsp;{{object.created_time|date:"m-d H:i"}}</small>&nbsp;&nbsp;
         {% if perms.status.delete_modify %}
+=======
+<div class="row">
+<div class="wrapper col-md-12" id="webboardContainer">
+	<h2 class="text-center page-header">{{object.title}}</h2>
+	<h6 class="well well-sm">
+		<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<button data-id="{{object.author.id}}" class=" btn-xs btn btn-link user-name">{{object.author.profile.nick_name}}</button>&nbsp;&nbsp;
+		<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{object.created_time|date:"m-d H:i"}}&nbsp;&nbsp;
+        {% if perms.webboard.delete_modify %}
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
         <button onclick="showAddForm('modify');" class="btn btn-link btn-sm">修改</button>
         {% endif %}
         {% if not object.has_verified %}
@@ -25,15 +47,9 @@
         {% endif %}
 	</h6>
 	<div class="content-main">
+<<<<<<< HEAD
 		<p id="mainText">{{object.body_text}}</p>
 	</div>
-<<<<<<< HEAD
-	<hr/>
-</div>
-
-<div id="commentListContainer" class="col-md-12">
-=======
->>>>>>> 39d8de0fa6fe57841670e899d23b41318a975bc6
 </div>
 
 <div class="col-md-12">
@@ -42,6 +58,17 @@
     </div>
     <blockquote id="commentList" class="col-md-12">
     </blockquote>
+=======
+        <p id="mainText" style="line-height:25px;text-indent:2em;">{{object.body_text}}</p>
+	</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12" id="commentContainer">
+    <div class="page-header">
+    	<h2>评论</h2>
+    </div>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	<form role="form" id="formComment">
 		<div class="form-group">
 			<textarea class="form-control" rows="5" placeholder="请在这输入评论" name="body_text"></textarea>
@@ -51,12 +78,20 @@
 			<button type="button" id="formCommentSubmit" class="pull-right btn btn-primary">提交</button>
 		</div>
 	</form>
+    <blockquote id="commentList" class="col-md-12">
+    </blockquote>
     <script type="text/javascript" src="/static/js/list.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
+<<<<<<< HEAD
 			commentsList = new List("webboardCommentList", "#commentList", '<div class="panel-sm panel panel-default"><div class="panel-heading"><h6 class="panel-title">{author.nick_name}</h6></div><div class="panel-body">{body_text}</div><div class="panel-footer text-right"><small>{created_time}</small></div></div>', {status_id: {{object.id}}, limit:5});
 			commentsList.update();
-			$("#mainText").html(processBodyText("{{object.body_text}}"));
+          commentsList.popover();
+=======
+			commentsList = new List("webboardCommentList", "#commentList", '<div class="panel-sm panel panel-default"><div class="panel-heading"><h6 class="panel-title"><button data-id="{author.id}" class="user-name btn-sm btn btn-link">{author.nick_name}</button></h6></div><div class="panel-body">{body_text}</div><div class="panel-footer text-right"><small>{created_time}</small></div></div>', {status_id: {{object.id}}, limit:5});
+			commentsList.update();
+			$("#mainText").html(processBodyText("{{object.body_text|linebreaksbr}}"));
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 			$("#formComment textarea").keypress(function (e) {
 				if (e.ctrlKey && (e.which == 13 || e.which == 10)) {$("#formCommentSubmit").click()}
 			});
@@ -87,5 +122,6 @@
 			});
 		});
 	</script>
+</div>
 </div>
 {% endblock %}

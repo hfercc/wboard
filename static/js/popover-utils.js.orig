@@ -1,14 +1,33 @@
 function clickMf(obj) {
 	obj = $(obj);
 	var is_friend = obj.hasClass("btn-default");
+<<<<<<< HEAD
+	alert(is_friend);
+	api.normal("accountsMf", function(data) {
+									 	if ('status' in data) {
+											is_friend = !is_friend;
+											is_friend?obj.text("已关注"):obj.text("关注");
+=======
 	api.normal("accountsMf", function(data) {
 									 	if ('status' in data) {
 											is_friend = !is_friend;
 											is_friend?obj.text("取消关注"):obj.text("关注");
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 											obj.toggleClass("btn-default").toggleClass("btn-success");
 										}
 									  }, {id:obj.attr("data-id"), action: is_friend?'remove':'add'});
 }
+<<<<<<< HEAD
+function initUserName() {
+	$(".user-name").each(function(){
+		var element = $(this);
+		element.attr("data-html", "true")
+		.attr("data-trigger", "hover")
+		.attr("data-delay", {show: '0', hide: '5000'})
+		.attr("data-toggle", "popover")
+		.attr("data-content", " ")
+		.attr("data-placement", "top")
+=======
 function clearUserName() {
 	$(".user-name").each(function ()
 	{
@@ -24,11 +43,25 @@ function initUserName() {
 		.attr("data-toggle", "popover")
 		.attr("data-content", "<div id='"+id+"'></div>")
 		.attr("data-placement", "bottom")
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 		.attr("data-container", "body")
 		.on("show.bs.popover", function(){
 			api.has_id("accountsInfo", function (data) {
 				var str = '';
 				if ('status' in data) {
+<<<<<<< HEAD
+					data = data.object
+					str += '<h5><strong>'+data.nick_name+
+					'</strong>&nbsp;(<small>'+data.username+
+					'</small>)</h5>'+'<button onclick="clickMf(this)" data-id="'+data.id+'" class="btn btn-xs btn-'+(data.is_friend?'default">取消关注':'success">关注')+'</button>';
+				} else { str = '加载失败，请检查网络配置'; }
+				element.attr("data-content", str);
+			}, element.attr("data-id"));		
+		}).popover("hide");
+	});
+}
+//$(document).ready(function(){initUserName()});
+=======
 					data = data.object;
 					str += '<h5><strong>'+data.nick_name+
 					'</strong>&nbsp;(<small>'+data.username+
@@ -45,3 +78,4 @@ function initUserName() {
 	});
 }
 $(document).ready(function(){initUserName()});
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

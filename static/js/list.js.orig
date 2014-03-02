@@ -4,10 +4,7 @@ function List(api, id, format, args) {
 	this.apiName = api;
 	this.format = format;
 	var containerName = id+'Container';
-<<<<<<< HEAD
-=======
 	this.list.append("<div class='container col-md-10 col-md-offset-1' id='"+containerName.substr(1)+"'></div>");
->>>>>>> 39d8de0fa6fe57841670e899d23b41318a975bc6
 	var pagerName = id+'Pager';
 	this.list.append("<div class='pager pull-right' id='"+pagerName.substr(1)+"'><button class='previous btn btn-link'>上一页</button><button class='next btn btn-link'>下一页</button></div>");
 	this.container = $(containerName);
@@ -33,17 +30,15 @@ function List(api, id, format, args) {
 										data = data[attr];
 										attr = pattern.exec(w);
 									}
-									//console.log(data);
 									return data;
 								});
 	}
 	List.prototype.update = function () {
+		clearUserName();
 		var self = this;
 		api.page(this.apiName, function (data) {
 										 self.clear();
-										// console.log(data.status);
 										 if ('status' in data) {
-										//	console.log('yes');
 											if (data.has_previous) {
 												self.pager.previous.removeClass("disabled");
 												self.list.attr("previous", "true");
@@ -63,7 +58,6 @@ function List(api, id, format, args) {
 											self.list.attr("page", data.number);
 											for (var i=0;i<data.objects.length;i++)
 											{
-												//console.log(data.objects[i]);
 												self.add(data.objects[i]);
 											}
 										 }
@@ -73,7 +67,10 @@ function List(api, id, format, args) {
 	List.prototype.add = function (obj) {
 		this.container.append(processData(this.format, obj));
 		initUserName();
+<<<<<<< HEAD
 		//console.log(this.container);
+=======
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	};
 	List.prototype.clear = function () {
 		this.container.text("");

@@ -9,7 +9,12 @@
 	<script type="text/javascript" src="/static/js/api.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/popover-utils.js"></script>
+<<<<<<< HEAD
+    	<script src="/static/js/carousel.js"></script>
+    <link href="/static/css/wboard.css" rel="stylesheet"></link>
+=======
     <link href="/static/css/wboard.css" rel="stylesheet" />
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	<style>
 		textarea {
 			resize: none;
@@ -25,11 +30,18 @@
         window.channelUrl?1:channelUrl = "{{channel_url}}";
 		$(document).ready(function () {
 			$("form").submit(function(e){e.preventDefault();});
+<<<<<<< HEAD
+			$(".dropdown-toggle").dropdown();
+=======
 			$(".dropdown-toggle").dropdown()
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 		});
 	</script>
-	<!-- Menu Starts-->
 	{% include "header.html" %}
+<<<<<<< HEAD
+	{% block main_content %}{% include "index.html" %}{% endblock %}
+	<script src="/static/js/bootstrap.js" type="text/javascript"></script>
+=======
 	<!-- Menu Ends -->
 	<!-- Main Starts -->
     {% block container %}
@@ -53,6 +65,7 @@
       </footer>
       </center>
 	<!--<script src="/static/js/bootstrap.js" type="text/javascript"></script>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	<script src="/static/js/tab.js"></script>
 	<script src="/static/js/transition.js"></script>
 	<script src="/static/js/alert.js"></script>
@@ -64,6 +77,9 @@
 	<script src="/static/js/popover.js" type="text/javascript"></script>
 	<script src="/static/js/button.js"></script>
 	<script src="/static/js/collapse.js"></script>
+<<<<<<< HEAD
+	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
+=======
 	<script src="/static/js/carousel.js"></script>-->
 	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css">
         <!--<link href="http://www.lib.sinaapp.com/js/bootstrap/v3.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
@@ -72,5 +88,6 @@
     <script type="text/javascript" src="http://channel.sinaapp.com/api.js"></script>
     <script type="text/javascript" src="/static/js/channel.js"></script>
     {% endif %}
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 </body>
 </html>

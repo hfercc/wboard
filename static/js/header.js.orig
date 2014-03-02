@@ -1,6 +1,13 @@
 function toggleInfo() {
 	if (hasLogined)
 	{
+<<<<<<< HEAD
+		clearForm("#formLogin");
+		$("#formLogin").hide();
+		$("#userInfo").show();
+		$("#psw").attr("placeholder", '密码');
+		$("#top1").show();
+=======
 		/*clearForm("#formLogin");
 		$("#userName").text(username);
 		$("#formLogin").hide();
@@ -8,6 +15,7 @@ function toggleInfo() {
 		$("#psw").attr("placeholder", '密码');*/
 		$("#loginNav").hide();
 		$("userInfo").show();
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	}
 	else
 	{
@@ -15,6 +23,7 @@ function toggleInfo() {
 		$("#userInfo").hide();*/
 		$("#loginNav").show();
 		$("#userInfo").hide();
+		$("#top1").hide();
 	}
 }
 (function (){
@@ -23,8 +32,9 @@ function login(){
 										    if (data.hasOwnProperty('status'))
 											{
 												hasLogined = true;
-												username = data.user.nick_name;
+												username = data.user.username;
 												toggleInfo();
+												changeUserName();
 											}
 											else
 											{
@@ -43,8 +53,14 @@ function logout(){
 											{
 												hasLogined = false;
 												username = '';
+												$("#userName").text(username);
 												toggleInfo();
 											}
 										  });
+<<<<<<< HEAD
+   jump("/");
+}
+=======
 }
 })();
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d

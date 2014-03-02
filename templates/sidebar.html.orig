@@ -10,6 +10,8 @@
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarNotify">站内通知</a>
 			</h4>
 		</div>
+<<<<<<< HEAD
+=======
 		<div id="sidebarNotify" class="panel-collapse collapse">
 			<div id="notifyBody" data-api="notifyList" class="panel-body" data-kind="unread" page="" hasnext="" hasprevious="">
             	<div class="btn-group pull-left inline" data-toggle="buttons">
@@ -30,6 +32,7 @@
 				
 			</ul>
 		</div>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -38,6 +41,8 @@
 				<a data-toggle="collapse" data-parent="#userSidebar" href="#sidebarEmail">站内邮件</a>
 			</h4>
 		</div>
+<<<<<<< HEAD
+=======
 		<div id="sidebarEmail" class="panel-collapse collapse">
 			<div id="emailBody" data-api="pmList" class="panel-body" data-kind="unread" page="" hasnext="" hasprevious="">
             	<div class="btn-group pull-left inline" data-toggle="buttons">
@@ -58,6 +63,7 @@
 				
 			</ul>
 		</div>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -66,15 +72,23 @@
 				 操作
 				</a>
 			</h4>
-		</div>
+		</div>{% if perms.status.post %}
 		<div id="collapseThree" class="panel-collapse collapse">
 			<div class="panel-body">
+<<<<<<< HEAD
+						
+							<a href="javascript:void(0);">发布公告</a>
+						
+=======
 				{% if perms.webboard.post %}
 					<a href="javascript:showAddForm('add');">发布公告</a>
 				{% endif %}
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 			</div>
-		</div>
+		</div>{% endif %}
 	</div>
+<<<<<<< HEAD
+=======
 	
 	<script type="text/javascript">
 	function updateList(body) {
@@ -177,4 +191,5 @@ channelMessage = function (data) {
 		}
 }
 	</script>
+>>>>>>> d44d202a2cfa48d6e26a0389f912e253b121936d
 </div>
